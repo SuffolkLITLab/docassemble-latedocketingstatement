@@ -1,0 +1,192 @@
+metadata:
+  title: Motion for Leave to Late Docket Appeal
+  short title: Late Docketing Statement
+  comment: Late Docketing Statement
+---
+mandatory: True
+id: interview questions
+code: |
+  trial_court_department
+  docket_number
+  appeals_docket_number
+  plaintiff
+  defendant
+  notice_date
+  other_parties
+  excuse_description
+  issue_description
+  user_name
+  motion_copy
+  attorney_info
+  service_date
+  e_signature
+  doc_upload
+---
+## Preferred format is dependent dropdown; I have not been able to make it work yet. Attempt in field below ##
+id: trial_court
+question: |
+  Enter the trial court department and division (e.g., Suffolk Probate and Family Court) in which your case was heard.
+fields:
+  - Trial Court Department: trial_court_department
+  - Trial Court Division: trial_court_division
+#fields:
+  #- Court Department: trial_court
+    #input type: dropdown
+    #choices: 
+      #- Superior Court
+      #- District Court
+      #- Land Court
+      #- Housing Court
+      #- Juvenile Court
+      #- Probate and Family Court
+      #- Boston Municipal Court
+  #- Court Division: trial_court_division 
+    #input type: dropdown
+    #choices:  
+---
+#code: | 
+  #if trial_court=="Superior Court":
+    #trial_court_division = superior_court
+  #elif trial_court=="District Court":
+    #trial_court_division = district_court
+  #elif trial_court=="Land Court": 
+    #trial_court_division = housing_court
+  #elif trial_court=="Juvenile Court":
+    #trial_court_division = juvenile_court
+  #elif trial_court=="Probate and Famaily Court":
+    #trial_court_division = probate_family_court
+  #elif trial_court=="Boston Municipal Court":
+    #trial_court_division = boston_municipal_court
+  #endif
+---
+id: docket_number
+question: |
+  What is the trial court docket number for your case?
+fields: 
+  - Docket Number: docket_number
+---
+id: appeals_docket_number
+question: |
+  What is the Appeals Court docket number for your case? 
+subquestion: | 
+  If this is the first document that you are filing in the Appeals Court, your case has not yet been assigned a docket number, and you may leave this question blank.
+fields:
+  - Appeals Court Docket Number: appeals_docket_number
+---
+code: | 
+  if appeals_docket_number=="": 
+    indigency_form = "Affidavit of Inidgency Form"
+---
+## Not working yet ##
+question: |
+  Click here to obtain an "Affidavit of Indigency Form"
+buttons: 
+  - Affidavit of Indigency Form: ( ${url_action('https://www.mass.gov/doc/affidavit-of-indigency/download')})
+---
+id: plaintiff
+question: |
+  List the plaintiff or plaintiffs in your trial court case including yourself, if you are a plaintiff.
+subquestion: |
+  If there are more than one plaintiffs, you may enter more than one name in the provided space.
+fields: 
+  - Plaintiff(s): plaintiff
+    input type: area
+---
+id: defendant
+question: |
+  List all of the defendants in your trial court case including yourself, if you are a defendant.
+subquestion: |
+  If there are more than one defendants, you may enter more than one name in the provided space.
+fields:
+  - Defendant(s): defendant
+    input type: area
+---
+id: notice_date
+question: |
+  Provide the date that you received the notice of assembly from the lower court.
+fields:
+  - Date: notice_date
+    datatype: date
+---
+## Needs to output "has/has not" in template; function not coded yet ## 
+id: other_parties
+question: |
+  Has another party in your case filed a motion to dismiss your appeal because you have not docketed it yet?
+field: other_parties 
+choices: 
+  - Yes
+  - No
+---
+id: excuse_description
+question: |
+  Describe the excusable neglect that resulted in having to file this motion to late docket the appeal. 
+subquestion: |
+  In other words, describe the reasons why you did not enter your appeal on the Appeals Court docket within 14 days of your receipt of the notice of assembly of the record.
+fields: 
+  - Description: excuse_description
+    input type: area
+---
+id: issue_description
+question: |
+  Describe the meritorious issues that the appeal presents.
+subquestion: |
+  To obtain leave to late docket your appeal, in addition to excusable neglect, you must demonstrate that the appeal presents a meritorious issue on appeal--a legal question worthy of judicial investigation and discussion. 
+fields: 
+  - Description: issue_description
+    input type: area
+---
+id: user_name 
+question: |
+  Signature Block
+fields: 
+  - Full Name: user_name
+  - Physical Address: user_address
+  - Email Address: user_email
+  - Telephone Number: user_phone
+  - Date of Completion: user_date 
+    datatype: date
+---
+id: e_signature
+question: |
+  Signed Under Penalty of Perjury,
+signature: e_signature
+under: | 
+  **${ user_name }**, 
+  ${ user_date }
+---
+id: motion_copy
+question: |
+  Select the method of delivery that you have used or will use to provide the required copies of the motion, memorandum and supporting materials to the other party(s)'s attorney(s).
+subquestion: |  
+  You are required to provide a copy of this motion on the other party(s)'; attorney(s). If the other party(s) do not have an attorney, you are required to serve a copy on the self-represented party(s). You should not provide a copy of your affidavit of indigency, if any, to anyone except the Appeals Court. 
+fields: 
+  - Delivery Method: motion_copy
+    input type: dropdown
+    choices:
+      - E-file and Serve (efilema.com)
+      - E-mail
+      - Mail
+      - Hand Delivery
+---
+id: attorney_info
+question: |
+  List the name and address or email address of each attorney or self-represented party that you have served or will serve with copies of your motion, memorandum and supporting materials. 
+subquestion: |
+  If you are serving more than one attorney or party, you may list more than one in the space provided.
+fields: 
+  - Attorney Name and Contact Information: attorney_info
+    input type: area
+---
+id: service_date
+question: |
+  Select the date on which you have made or will make service.
+fields: 
+  - Date of Service: service_date
+    datatype: date
+---
+id: doc_upload
+question: |
+  Upload any relevant documents in support of your request for relief, including any necessary affidavits.
+fields:
+  - Relevant Documents: doc_upload
+    datatype: files
