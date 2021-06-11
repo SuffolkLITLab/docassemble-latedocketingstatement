@@ -70,6 +70,7 @@ code: |
 objects:
   - other_parties: ALPeopleList.using(there_are_any=True)
   - users: ALPeopleList.using(there_are_any=True)
+  - attorney: ALPeopleList
 ---
 sections:
   - review_late_docketing_statement: Review your answers
@@ -95,7 +96,6 @@ code: |
   excuse_description
   set_progress(28.57)
   issue_description
-  user_name
   other_parties.gather()
   interview_order_late_docketing_statement = True
   user_number
@@ -103,7 +103,7 @@ code: |
   #additional_users
   #signature_block
   motion_delivery
-  attorney_name
+  attorney[0]
   attorney_address
   set_progress(42.86)
   service_date
@@ -204,37 +204,6 @@ fields:
   - Description: issue_description
     input type: area
 ---
-#id: user_name
-#sets:
-    #- users[0].name.first
-    #- users[0].name.last
-#question:  |
-  #What is your name?
-#fields:
-  #- code: |
-      #users[0].name_fields()
----
-#id: additional_users
-#question: |
-  #% if al_form_type in ['starts_case','existing_case','appeal']:
-  #Is anyone else on your side of this case?
-  #% else:
-  #Is anyone else adding their name to this form with you?
-  #% endif
-#subquestion: |
-  #% if len(users.elements) > 1:  
-  #So far you have told us about ${comma_and_list(users.complete_elements())}.
-  #% endif  
-#yesno: users.there_is_another
----
-#changing to signature_block
-id: user_name
-question: |
-  Signature Block
-fields: 
-  - Full Name: user_name
-  - Physical Address: user_address
----
 id: user_number
 question: |
   Provide your current contact information. 
@@ -263,13 +232,13 @@ fields:
       - Mail
       - Hand Delivery
 ---
-id: attorney_name
+id: attorney[0]
 question: |
   List the name and address or email address of each attorney or self-represented party that you have served or will serve with copies of your motion, memorandum and supporting materials.
 subquestion: |
   If you are serving more than one attorney or party, you may list more than one in the space provided.
 fields: 
-  - Attorney Name: attorney_name
+  - Attorney Name: attorney[0]
   - Attorney Address: attorney_address
 ---
 id: service_date
@@ -279,6 +248,30 @@ subquestion: |
   Select the date on which you have made or will make service.
 fields:
   - "Date of Service": service_date
+    datatype: date
+---
+id: Motion to Dismiss
+question: |
+  Has another party in your case filed a motion to dismiss your appeal because you have not docketed it yet?
+yesno: motion_to_dismiss 
+---
+id: User Email
+question: |
+  What is your e-mail?
+fields:
+  - email: user_email
+---
+id: User Number
+question: |
+  What is your phone number?
+fields:
+  - number: user_number
+---
+id: User Date
+question: |
+  What is the date you signed?
+fields:
+  - Date: user_date
     datatype: date
 ---
 id: doc_upload
@@ -294,7 +287,7 @@ question: |
   Signed Under Penalty of Perjury,
 signature: e_signature
 under: | 
-  **${ user_name }**, 
+  **${ users[0] }**, 
   ${ user_date }
 ---
 id: preview late_docketing_statement
@@ -365,10 +358,10 @@ review:
     button: |
       **Trial court department**:
       ${ trial_court_department }
-  - Edit: attorney_name
+  - Edit: attorney[0]
     button: |
       **Attorney info**:
-      ${ attorney_name }
+      ${ attorney[0] }
   - Edit: other_parties.revisit
     button: |
       **other_parties**
