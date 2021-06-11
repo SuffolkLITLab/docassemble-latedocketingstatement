@@ -1,0 +1,447 @@
+---
+include:
+  - docassemble.AssemblyLine:al_package.yml
+  - docassemble.ALMassachusetts:al_massachusetts.yml
+---
+metadata:
+  title: Motion for Leave to Late Docket Appeal
+  short title: Late Docketing Statement
+  comment: Late Docketing Statement
+  tags:
+    - BE-00-00-00-00
+    - BE-04-00-00-00
+    - ED-00-00-00-00
+    - ES-00-00-00-00
+    - FA-00-00-00-00
+    - FA-07-00-00-00
+    - HE-00-00-00-00
+    - HO-00-00-00-00
+    - IM-00-00-00-00
+    - MO-00-00-00-00
+    - RI-10-00-00-00
+---
+mandatory: True
+comment: |
+  This contains metadata that will not be overwritten if this YAML file is included in another file. Each file gets its own key in the interview_metadata dictionary. Most keys are not currently used at runtime, other than "allowed courts".
+code: |
+  interview_metadata
+  if not defined("interview_metadata['late_docketing_statement']"):
+    interview_metadata.initializeObject("late_docketing_statement")
+    interview_metadata["late_docketing_statement"].update({
+      "al_weaver_version": "1.0.2",
+      "generated on": "2021-06-08",
+      "title": "Appeals Late Docketing Statement",
+      "short title": "Late docketing statement",
+      "description": "Late docketing statement",
+      "original_form": "",
+      "allowed courts": [
+        "Boston Municipal Court",
+        "District Court",
+        "Housing Court",
+        "Juvenile Court",
+        "Land Court",
+        "Probate and Family Court",
+        "Superior Court",
+      ],
+      "categories": [
+        "BE-00-00-00-00",
+        "RI-10-00-00-00",
+        "FA-00-00-00-00",
+        "ED-00-00-00-00",
+        "IM-00-00-00-00",
+        "HE-00-00-00-00",
+        "HO-00-00-00-00",
+        "ES-00-00-00-00",
+        "FA-07-00-00-00",
+        "MO-00-00-00-00",
+        "BE-04-00-00-00",
+      ],        
+      "logic block variable": "interview_order_late_docketing_statement",
+      "attachment block variable": "late_docketing_statement_attachment",
+      "typical role": "unknown",
+    })
+---
+code: |
+  interview_short_title = "Get a Late Docketing Statement"
+---
+code: |
+  al_form_type = 'appeal'
+---
+objects:
+  - other_parties: ALPeopleList.using(there_are_any=True)
+  - users: ALPeopleList.using(there_are_any=True)
+---
+sections:
+  - review_late_docketing_statement: Review your answers
+---
+#################### Interview order #####################
+comment: |
+  Controls order and branching logic for questions specific to this form
+id: interview_order_late_docketing_statement
+code: |
+  # Set the allowed courts for this interview
+  allowed_courts = interview_metadata["late_docketing_statement"]["allowed courts"]
+  nav.set_section('review_late_docketing_statement')
+  # Below sets the user_role by asking a question.
+  # You can set user_role directly instead to either 'plaintiff' or 'defendant'
+  user_ask_role #remove
+  trial_court_department
+  docket_number
+  appeals_docket_number
+  plaintiff
+  set_progress(14.29)
+  defendant
+  notice_date
+  excuse_description
+  set_progress(28.57)
+  issue_description
+  user_name
+  other_parties.gather()
+  interview_order_late_docketing_statement = True
+  user_number
+  user_date
+  #additional_users
+  #signature_block
+  motion_delivery
+  attorney_name
+  attorney_address
+  set_progress(42.86)
+  service_date
+  e_signature
+  doc_upload
+  set_progress(57.14)
+---
+###################### Main order ######################
+comment: |
+  This block includes the logic for standalone interviews.
+  Delete mandatory: True to include in another interview
+mandatory: True
+code: |
+  al_intro_screen
+  late_docketing_statement_intro
+  interview_order_late_docketing_statement
+  signature_date
+  # Save anonymized interview statistics (customize the saved data below)
+  store_variables_snapshot(data={'zip': users[0].address.zip})
+  late_docketing_statement_preview_question
+  basic_questions_signature_flow
+  late_docketing_statement_download
+---
+#More can probably be added here as an intro to the interview 
+id: Appeals_Late_Docketing_Statement
+continue button field: late_docketing_statement_intro
+question: |
+  Appeals Late Docketing Statement
+subquestion: |
+  Late Docketing Statement
+---
+id: docket_number
+question: |
+  What is the trial court docket number for your case?
+fields: 
+  - Docket Number: docket_number
+---
+## Preferred format is dependent dropdown; I have not been able to make it work yet. Attempt in field below ##
+id: trial_court
+question: |
+  Enter the trial court department and division (e.g., Suffolk Probate and Family Court) in which your case was heard.
+fields:
+  - Trial Court Department: trial_court_department
+  - Trial Court Division: trial_court_division
+---
+# Needs work; see google doc. If statement needed for url
+id: appeals_docket_number
+question: |
+  Appeals Docket Number
+subquestion: |
+  What is the Appeals Court docket number for your case? If this is the first document that you are filing in the Appeals Court, your case has not yet been assigned a docket number, and you may leave this question blank.
+fields:
+  - "Appeals Docket Number": appeals_docket_number
+    required: False
+---
+id: plaintiff
+question: |
+  List the plaintiff or plaintiffs in your trial court case including yourself, if you are a plaintiff.
+subquestion: |
+  If there are more than one plaintiffs, you may enter more than one name in the provided space.
+fields: 
+  - Plaintiff(s): plaintiff
+    input type: area
+---
+id: defendant
+question: |
+  List all of the defendants in your trial court case including yourself, if you are a defendant.
+subquestion: |
+  If there are more than one defendants, you may enter more than one name in the provided space.
+fields:
+  - Defendant(s): defendant
+    input type: area
+---
+id: notice_date
+question: |
+  Date of Notice
+subquestion: |
+  Provide the date that you received the notice of assembly from the lower court.
+fields:
+  - "Date of notice": notice_date
+    datatype: date
+---
+id: excuse_description
+question: |
+  Describe the excusable neglect that resulted in having to file this motion to late docket the appeal. 
+subquestion: |
+  In other words, describe the reasons why you did not enter your appeal on the Appeals Court docket within 14 days of your receipt of the notice of assembly of the record.
+fields: 
+  - Description: excuse_description
+    input type: area
+---
+id: issue_description
+question: |
+  Issue Description
+subquestion: |
+  To obtain leave to late docket your appeal, in addition to excusable neglect, you must demonstrate that the appeal presents a meritorious issue on appeal--a legal question worthy of judicial investigation and discussion. Describe the meritorious issues that the appeal presents.
+fields: 
+  - Description: issue_description
+    input type: area
+---
+#id: user_name
+#sets:
+    #- users[0].name.first
+    #- users[0].name.last
+#question:  |
+  #What is your name?
+#fields:
+  #- code: |
+      #users[0].name_fields()
+---
+#id: additional_users
+#question: |
+  #% if al_form_type in ['starts_case','existing_case','appeal']:
+  #Is anyone else on your side of this case?
+  #% else:
+  #Is anyone else adding their name to this form with you?
+  #% endif
+#subquestion: |
+  #% if len(users.elements) > 1:  
+  #So far you have told us about ${comma_and_list(users.complete_elements())}.
+  #% endif  
+#yesno: users.there_is_another
+---
+#changing to signature_block
+id: user_name
+question: |
+  Signature Block
+fields: 
+  - Full Name: user_name
+  - Physical Address: user_address
+---
+id: user_number
+question: |
+  Provide your current contact information. 
+fields: 
+  - Phone Number: user_number
+  - Email Address: user_email
+---
+id: user_date 
+question: |
+  Provide the date in which this form was completed. 
+fields: 
+  - Date of Completion: user_date 
+    datatype: date
+---
+id: motion_delivery
+question: |
+  Select the method of delivery that you have used or will use to provide the required copies of the motion, memorandum and supporting materials to the other party(s)'s attorney(s).
+subquestion: |
+  You are required to provide a copy of this motion on the other party(s)' attorney(s). If the other party(s) do not have an attorney, you are required to serve a copy on the self-represented party(s). You should not provide a copy of your affidavit of indigency, if any, to anyone except the Appeals Court. 
+fields: 
+  - Delivery Method: motion_delivery
+    input type: dropdown
+    choices:
+      - E-file and Serve (efilema.com)
+      - E-mail
+      - Mail
+      - Hand Delivery
+---
+id: attorney_name
+question: |
+  List the name and address or email address of each attorney or self-represented party that you have served or will serve with copies of your motion, memorandum and supporting materials.
+subquestion: |
+  If you are serving more than one attorney or party, you may list more than one in the space provided.
+fields: 
+  - Attorney Name: attorney_name
+  - Attorney Address: attorney_address
+---
+id: service_date
+question: |
+  Service Date
+subquestion: |
+  Select the date on which you have made or will make service.
+fields:
+  - "Date of Service": service_date
+    datatype: date
+---
+id: doc_upload
+question: |
+  Upload any relevant documents in support of your request for relief, including any necessary affidavits.
+fields:
+  - Relevant Documents: doc_upload
+    datatype: files
+    required: False
+---
+id: e_signature
+question: |
+  Signed Under Penalty of Perjury,
+signature: e_signature
+under: | 
+  **${ user_name }**, 
+  ${ user_date }
+---
+id: preview late_docketing_statement
+question: |
+  Preview your form before you sign it
+subquestion: |
+  Here is a preview of the form you will sign on the next page.   
+  
+  ${ al_court_bundle.as_pdf(key='preview') }
+
+  Click the image to open it in a new tab. Click the "Make changes" button
+  to edit your answers.
+
+  ${ action_button_html(url_action('review_late_docketing_statement'), label='Make changes', color='info') }
+  
+  Remember to come back to this window to continue and sign your form.
+continue button field: late_docketing_statement_preview_question    
+---
+code: |
+  signature_fields = []
+---
+id: late docketing statement review screen
+event: review_late_docketing_statement
+question: |
+  Review your answers
+review:
+  - Edit: notice_date
+    button: |
+      **Date of notice**:
+      ${ notice_date }
+  - Edit: e_signature
+    button: |
+      **E signature**:
+      ${ e_signature }
+  - Edit: defendant[0]
+    button: |
+      **Defendant[0]**:
+      ${ defendant[0] }
+  - Edit: excuse_description
+    button: |
+      **Excuse description**:
+      ${ excuse_description }
+  - Edit: motion_delivery
+    button: |
+      **Motion delivery**:
+      ${ motion_delivery }
+  - Edit: doc_upload
+    button: |
+      **Doc upload**:
+      ${ doc_upload }
+  - Edit: issue_description
+    button: |
+      **Issue description**:
+      ${ issue_description }
+  - Edit: appeals_docket_number
+    button: |
+      **Appeals docket number**:
+      ${ appeals_docket_number }
+  - Edit: service_date
+    button: |
+      **Date of service**:
+      ${ service_date }
+  - Edit: plaintiff[0]
+    button: |
+      **Plaintiff[0]**:
+      ${ plaintiff[0] }
+  - Edit: trial_court_department
+    button: |
+      **Trial court department**:
+      ${ trial_court_department }
+  - Edit: attorney_name
+    button: |
+      **Attorney info**:
+      ${ attorney_name }
+  - Edit: other_parties.revisit
+    button: |
+      **other_parties**
+
+      % for item in other_parties:
+        * ${ item }
+      % endfor
+  - Edit: docket_number
+    button: |
+      **docket_number**:
+      ${ docket_number }
+---
+continue button field: other_parties.revisit
+question: |
+  Edit other_parties
+subquestion: |
+  ${ other_parties.table }
+
+  ${ other_parties.add_action() }
+---
+table: other_parties.table
+rows: other_parties
+columns:
+  - name: |
+      row_item.name.full() if defined("row_item.name.first") else ""
+edit:
+  - name.first
+confirm: True
+
+---
+id: download late_docketing_statement
+event: late_docketing_statement_download
+question: |
+  Your form is ready to download.
+subquestion: |
+  Thank you ${users}. Your form is ready to download and deliver.
+  
+  View, download and send your form below. Click the "Make changes" button to fix any mistakes.
+
+  ${ action_button_html(url_action('review_late_docketing_statement'), label='Make changes', color='info') }
+  
+  
+  ${ al_user_bundle.download_list_html() }
+  
+
+  ${ al_user_bundle.send_button_html(show_editable_checkbox=True) }
+
+progress: 100
+---
+objects:
+  - Post_interview_instructions: ALDocument.using(title="Instructions", filename="late_docketing_statement_next_steps.docx", enabled=True, has_addendum=False)
+  - late_docketing_statement_attachment: ALDocument.using(title="Late docketing statement", filename="late_docketing_statement.docx", enabled=True, has_addendum=False)
+  - Post_interview_instructions: ALDocument.using(title="Instructions", filename="late_docketing_statement_next_steps.docx", enabled=True, has_addendum=False)
+  - late_docketing_statement_attachment: ALDocument.using(title="Late docketing statement", filename="late_docketing_statement.docx", enabled=True, has_addendum=False)
+---
+objects:
+  - al_user_bundle: ALDocumentBundle.using(elements=[Post_interview_instructions,late_docketing_statement_attachment], filename="late_docketing_statement_package.pdf", title="All forms to download for your records")
+  - al_court_bundle: ALDocumentBundle.using(elements=[late_docketing_statement_attachment], filename="late_docketing_statement_package.pdf", title="All forms to download for your records")
+---
+attachments:
+  - name: Post interview instructions
+    filename: Post-interview-instructions     
+    variable name: Post_interview_instructions[i]        
+    docx template file: late_docketing_statement_next_steps.docx
+  - name: late docketing statement attachment
+    filename: late_docketing_statement     
+    variable name: late_docketing_statement_attachment[i]        
+    docx template file: late_docketing_statement.docx
+  - name: Post interview instructions
+    filename: Post-interview-instructions     
+    variable name: Post_interview_instructions[i]        
+    docx template file: late_docketing_statement_next_steps.docx
+  - name: late docketing statement attachment
+    filename: late_docketing_statement     
+    variable name: late_docketing_statement_attachment[i]        
+    docx template file: late_docketing_statement.docx
