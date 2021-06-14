@@ -45,7 +45,7 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
 setup(name='docassemble.latedocketingstatement',
       version='',
       description=(''),
-      long_description='# docassemble.latedocketingstatement\n\n\n\n## Author\n\nracosta2@su.suffolk.edu\n\n',
+      long_description='# docassemble.latedocketingstatement\r\n\r\n\r\n\r\n## Author\r\n\r\nracosta2@su.suffolk.edu\r\n\r\n',
       long_description_content_type='text/markdown',
       author='',
       author_email='racosta2@su.suffolk.edu',
