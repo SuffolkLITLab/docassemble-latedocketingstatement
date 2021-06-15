@@ -2,6 +2,8 @@
 include:
   - docassemble.AssemblyLine:al_package.yml
   - docassemble.ALMassachusetts:al_massachusetts.yml
+  - docassemble.MassAccess:massaccess.yml
+  - docassemble.MassAppealsCourt:appeals-basic-questions.yml
 ---
 metadata:
   title: Motion for Leave to Late Docket Appeal
@@ -86,21 +88,20 @@ code: |
   # Below sets the user_role by asking a question.
   # You can set user_role directly instead to either 'plaintiff' or 'defendant'
   user_ask_role #edit
-  user_role
-  users[0].email   
+  users[0].name.first
+  users[0].email
+  other_parties.gather()
   trial_court_department
   docket_number
   appeals_docket_number
-  plaintiff
+  #plaintiff
   set_progress(14.29)
-  defendant
+  #defendant
   notice_date
   excuse_description
   set_progress(28.57)
   issue_description
-  other_parties.gather()
   interview_order_late_docketing_statement = True
-  user_number
   user_date
   #additional_users
   #signature_block
@@ -138,38 +139,6 @@ question: |
 subquestion: |
   Late Docketing Statement
 ---
-id: user_role
-question: |
-  In the **Trial Court**, did you file the first forms, or did you respond to a 
-  case that someone else started?
-fields:
-  - no label: user_role
-    datatype: radio
-    choices:
-      - I started the case: plaintiff
-      - I responded to the case: defendant
-  - note: |
-      Okay, you are the **Plaintiff** or Petitioner in the trial court. The other
-      side is the **Defendant** or Respondent.
-    show if:
-      variable: user_ask_role
-      is: "plaintiff"
-  - note: |
-      Okay, you are the **Defendant** or Respondent in the trial court. The other
-      side is the **Plaintiff** or Petitioner.
-    show if:
-      variable: user_role
-      is: "defendant"
-help:
-  label: |
-    How do I know?
-  content: |
-    If you are the first person to file a form in the case, you are the
-    "Plaintiff" or the "Petitioner."
-
-    If you are responding to a case or court papers someone else filed, you are
-    the "Defendant" or the "Respondent."
----
 id: docket_number
 question: |
   What is the trial court docket number for your case?
@@ -194,23 +163,23 @@ fields:
   - "Appeals Docket Number": appeals_docket_number
     required: False
 ---
-id: plaintiff
-question: |
-  List the plaintiff or plaintiffs in your trial court case including yourself, if you are a plaintiff.
-subquestion: |
-  If there are more than one plaintiffs, you may enter more than one name in the provided space.
-fields: 
-  - Plaintiff(s): plaintiff
-    input type: area
+#id: plaintiff
+#question: |
+  #List the plaintiff or plaintiffs in your trial court case including yourself, if you are a plaintiff.
+#subquestion: |
+  #If there are more than one plaintiffs, you may enter more than one name in the provided space.
+#fields: 
+  #- Plaintiff(s): plaintiff
+    #input type: area
 ---
-id: defendant
-question: |
-  List all of the defendants in your trial court case including yourself, if you are a defendant.
-subquestion: |
-  If there are more than one defendants, you may enter more than one name in the provided space.
-fields:
-  - Defendant(s): defendant
-    input type: area
+#id: defendant
+#question: |
+  #List all of the defendants in your trial court case including yourself, if you are a defendant.
+#subquestion: |
+  #If there are more than one defendants, you may enter more than one name in the provided space.
+#fields:
+  #- Defendant(s): defendant
+    #input type: area
 ---
 id: notice_date
 question: |
@@ -244,7 +213,6 @@ question: |
   Provide your current contact information. 
 fields: 
   - Phone Number: user_number
-  - Email Address: user_email
 ---
 id: user_date 
 question: |
@@ -289,18 +257,6 @@ id: Motion to Dismiss
 question: |
   Has another party in your case filed a motion to dismiss your appeal because you have not docketed it yet?
 yesno: motion_to_dismiss 
----
-id: User Email
-question: |
-  What is your e-mail?
-fields:
-  - email: user_email
----
-id: User Number
-question: |
-  What is your phone number?
-fields:
-  - number: user_number
 ---
 id: User Date
 question: |
@@ -357,10 +313,10 @@ review:
     button: |
       **E signature**:
       ${ e_signature }
-  - Edit: defendant[0]
+  - Edit: defendants
     button: |
-      **Defendant[0]**:
-      ${ defendant[0] }
+      **Defendants**:
+      ${ defendants }
   - Edit: excuse_description
     button: |
       **Excuse description**:
