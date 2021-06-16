@@ -91,7 +91,7 @@ code: |
   users[0].name.first
   users[0].email
   other_parties.gather()
-  trial_court_department
+  trial_court
   docket_number
   appeals_docket_number
   #plaintiff
@@ -145,13 +145,19 @@ question: |
 fields: 
   - Docket Number: docket_number
 ---
-## Preferred format is dependent dropdown; I have not been able to make it work yet. Attempt in field below ##
-id: trial_court
-question: |
-  Enter the trial court department and division (e.g., Suffolk Probate and Family Court) in which your case was heard.
+id: trial court division 
+question: | 
+  Select the **Trial Court** department and division where your case was heard.
 fields:
-  - Trial Court Department: trial_court_department
-  - Trial Court Division: trial_court_division
+  - no label: trial_court
+    datatype: object
+    choices: macourts.filter_courts(["Boston Municipal Court",
+      "District Court",
+      "Superior Court",
+      "Housing Court",
+      "Probate and Family Court",
+      "Juvenile Court",
+      "Land Court"])
 ---
 # Needs work; see google doc. If statement needed for url
 id: appeals_docket_number
@@ -345,10 +351,10 @@ review:
     button: |
       **Plaintiff[0]**:
       ${ plaintiff[0] }
-  - Edit: trial_court_department
+  - Edit: trial_court
     button: |
-      **Trial court department**:
-      ${ trial_court_department }
+      **Trial Court**:
+      ${ trial_court }
   - Edit: attorney[0]
     button: |
       **Attorney info**:
@@ -407,6 +413,7 @@ objects:
   - late_docketing_statement_attachment: ALDocument.using(title="Late docketing statement", filename="late_docketing_statement.docx", enabled=True, has_addendum=False)
   - Post_interview_instructions: ALDocument.using(title="Instructions", filename="late_docketing_statement_next_steps.docx", enabled=True, has_addendum=False)
   - late_docketing_statement_attachment: ALDocument.using(title="Late docketing statement", filename="late_docketing_statement.docx", enabled=True, has_addendum=False)
+  - macourts: MACourtList.using(courts=['housing_courts','bmc','district_courts','superior_courts','land_court', 'juvenile_courts', 'probate_and_family_courts','appeals_court'])  # this is for lookups
 ---
 objects:
   - al_user_bundle: ALDocumentBundle.using(elements=[Post_interview_instructions,late_docketing_statement_attachment], filename="late_docketing_statement_package.pdf", title="All forms to download for your records")
