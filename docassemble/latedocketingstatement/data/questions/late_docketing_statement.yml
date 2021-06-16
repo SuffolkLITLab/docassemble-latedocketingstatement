@@ -169,24 +169,6 @@ fields:
   - "Appeals Docket Number": appeals_docket_number
     required: False
 ---
-#id: plaintiff
-#question: |
-  #List the plaintiff or plaintiffs in your trial court case including yourself, if you are a plaintiff.
-#subquestion: |
-  #If there are more than one plaintiffs, you may enter more than one name in the provided space.
-#fields: 
-  #- Plaintiff(s): plaintiff
-    #input type: area
----
-#id: defendant
-#question: |
-  #List all of the defendants in your trial court case including yourself, if you are a defendant.
-#subquestion: |
-  #If there are more than one defendants, you may enter more than one name in the provided space.
-#fields:
-  #- Defendant(s): defendant
-    #input type: area
----
 id: notice_date
 question: |
   Date of Notice
