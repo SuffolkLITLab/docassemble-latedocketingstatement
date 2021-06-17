@@ -101,19 +101,15 @@ code: |
   excuse_description
   set_progress(28.57)
   issue_description
-  interview_order_late_docketing_statement = True
   user_date
-  #additional_users
-  #signature_block
   motion_delivery
   attorney[0]
-  attorney_address
   set_progress(42.86)
   service_date
   motion_to_dismiss
-  e_signature
   doc_upload
   set_progress(57.14)
+  interview_order_late_docketing_statement = True
 ---
 ###################### Main order ######################
 comment: |
@@ -235,7 +231,7 @@ subquestion: |
   If you are serving more than one attorney or party, you may list more than one in the space provided.
 fields: 
   - Attorney Name: attorney[0]
-  - Attorney Address: attorney_address
+  - Attorney Address: attorney[0].address
 ---
 id: service_date
 question: |
@@ -266,14 +262,6 @@ fields:
     datatype: files
     required: False
 ---
-id: e_signature
-question: |
-  Signed Under Penalty of Perjury,
-signature: e_signature
-under: | 
-  **${ users[0] }**, 
-  ${ user_date }
----
 id: preview late_docketing_statement
 question: |
   Preview your form before you sign it
@@ -302,10 +290,10 @@ review:
     button: |
       **Date of notice**:
       ${ notice_date }
-  - Edit: e_signature
+  - Edit: users[0].signature
     button: |
       **E signature**:
-      ${ e_signature }
+      ${ users[0].signature }
   - Edit: defendants
     button: |
       **Defendants**:
