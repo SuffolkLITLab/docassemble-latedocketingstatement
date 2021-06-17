@@ -101,7 +101,6 @@ code: |
   excuse_description
   set_progress(28.57)
   issue_description
-  interview_order_late_docketing_statement = True
   user_date
   #additional_users
   #signature_block
@@ -111,9 +110,15 @@ code: |
   set_progress(42.86)
   service_date
   motion_to_dismiss
-  e_signature
-  doc_upload
+  
+  if has_document: 
+    exhibits_attachment.enabled = True
+    review_doc_upload
+  else:
+    exhibits_attachment.enabled = False
+ 
   set_progress(57.14)
+  interview_order_late_docketing_statement = True
 ---
 ###################### Main order ######################
 comment: |
@@ -253,21 +258,44 @@ fields:
   - Date: user_date
     datatype: date
 ---
-id: doc_upload
+id: document appendix
 question: |
   Upload any relevant documents in support of your request for relief, including any necessary affidavits.
 fields:
-  - Relevant Documents: doc_upload
+  - Do you have any documents that you would like to attach to your Motion?: has_document
+    datatype: yesnoradio
+  - Tap "browse" and choose all of the documents you want to upload at once. You can edit or add additional documents on the next screen.: doc_uploads
     datatype: files
-    required: False
+    show if: has_document
+    maximum image size: 1024
+    image upload type: jpeg    
+    accept: |
+      "image/*, image/png,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,.pdf"
+#validation code: |
+  #if has_document and sum(doc_upload.size_in_bytes() for doc_upload in doc_uploads) > (15 * 1024 * 1024):
+    #validation_error("Upload a file smaller than 15 MB.")
 ---
-id: e_signature
+table: doc_uploads.table
+rows: doc_uploads
+allow reordering: True
+columns:
+  - File name: showifdef(row_item.attr_name('filename'))
+  # - Size: row_item.size_in_bytes() / 1024 / 1024
+  - Thumbnail: row_item.show(width="100px")  
+delete buttons: True
+---
+id: review documents
 question: |
-  Signed Under Penalty of Perjury,
-signature: e_signature
-under: | 
-  **${ users[0] }**, 
-  ${ user_date }
+  Review your documents.
+subquestion: |
+  Look at the documents below. If you want to change the order, use the arrows
+  to move an exhibit up or down in the list. Click "delete" or "add another"
+  to change which documents you send to the court.
+  
+  ${ doc_uploads.table }
+  
+  ${ doc_uploads.add_action() }
+continue button field: review_doc_upload
 ---
 id: preview late_docketing_statement
 question: |
@@ -297,10 +325,10 @@ review:
     button: |
       **Date of notice**:
       ${ notice_date }
-  - Edit: e_signature
+  - Edit: users[0].signature
     button: |
       **E signature**:
-      ${ e_signature }
+      ${ users[0].signature }
   - Edit: defendants
     button: |
       **Defendants**:
@@ -313,10 +341,10 @@ review:
     button: |
       **Motion delivery**:
       ${ motion_delivery }
-  - Edit: doc_upload
+  - Edit: doc_uploads
     button: |
       **Doc upload**:
-      ${ doc_upload }
+      ${ doc_uploads }
   - Edit: issue_description
     button: |
       **Issue description**:
@@ -396,10 +424,20 @@ objects:
   - Post_interview_instructions: ALDocument.using(title="Instructions", filename="late_docketing_statement_next_steps.docx", enabled=True, has_addendum=False)
   - late_docketing_statement_attachment: ALDocument.using(title="Late docketing statement", filename="late_docketing_statement.docx", enabled=True, has_addendum=False)
   - macourts: MACourtList.using(courts=['housing_courts','bmc','district_courts','superior_courts','land_court', 'juvenile_courts', 'probate_and_family_courts','appeals_court'])  # this is for lookups
+  - exhibits_attachment: ALDocument.using(title='Exhibits', filename='doc_uploads', has_addendum=False)
 ---
 objects:
-  - al_user_bundle: ALDocumentBundle.using(elements=[Post_interview_instructions,late_docketing_statement_attachment], filename="late_docketing_statement_package.pdf", title="All forms to download for your records")
-  - al_court_bundle: ALDocumentBundle.using(elements=[late_docketing_statement_attachment], filename="late_docketing_statement_package.pdf", title="All forms to download for your records")
+  - al_user_bundle: ALDocumentBundle.using(elements=[Post_interview_instructions,late_docketing_statement_attachment, exhibits_attachment], filename="late_docketing_statement_package.pdf", title="All forms to download for your records")
+  - al_court_bundle: ALDocumentBundle.using(elements=[late_docketing_statement_attachment, exhibits_attachment], filename="late_docketing_statement_package.pdf", title="All forms to download for your records")
+---
+objects:
+  - doc_uploads: DAFileList.using(auto_gather=False, gathered=True)
+---
+code: |
+  if has_document: 
+    exhibits_attachment.enabled = True
+  else:
+    exhibits_attachment.enabled = False
 ---
 attachments:
   - name: Post interview instructions
