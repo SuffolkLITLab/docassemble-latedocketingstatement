@@ -94,19 +94,14 @@ code: |
   trial_court
   docket_number
   appeals_docket_number
-  #plaintiff
   set_progress(14.29)
-  #defendant
   notice_date
   excuse_description
   set_progress(28.57)
   issue_description
   user_date
-  #additional_users
-  #signature_block
   motion_delivery
   attorney[0]
-  attorney_address
   set_progress(42.86)
   service_date
   motion_to_dismiss
@@ -210,6 +205,8 @@ fields:
 id: user_date 
 question: |
   Provide the date in which this form was completed. 
+subquestion: |
+  Please indicate on which day you completed this form.
 fields: 
   - Date of Completion: user_date 
     datatype: date
@@ -235,7 +232,7 @@ subquestion: |
   If you are serving more than one attorney or party, you may list more than one in the space provided.
 fields: 
   - Attorney Name: attorney[0]
-  - Attorney Address: attorney_address
+  - Attorney Address: attorney[0].address
 ---
 id: service_date
 question: |
