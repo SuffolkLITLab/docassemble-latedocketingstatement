@@ -122,7 +122,6 @@ comment: |
 mandatory: True
 code: |
   al_intro_screen
-  late_docketing_statement_intro
   interview_order_late_docketing_statement
   signature_date
   # Save anonymized interview statistics (customize the saved data below)
@@ -130,14 +129,6 @@ code: |
   late_docketing_statement_preview_question
   basic_questions_signature_flow
   late_docketing_statement_download
----
-#More can probably be added here as an intro to the interview 
-id: Appeals_Late_Docketing_Statement
-continue button field: late_docketing_statement_intro
-question: |
-  Appeals Late Docketing Statement
-subquestion: |
-  Late Docketing Statement
 ---
 id: docket_number
 question: |
@@ -216,7 +207,9 @@ fields:
 ---
 id: user_date 
 question: |
-  Provide the date in which this form was completed. 
+  Provide the date in which this form was completed.
+subquestion: |
+  Please indicate on which day you completed this form.
 fields: 
   - Date of Completion: user_date 
     datatype: date
