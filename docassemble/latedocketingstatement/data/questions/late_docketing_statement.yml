@@ -107,10 +107,7 @@ code: |
   motion_to_dismiss
   
   if has_document: 
-    exhibits_attachment.enabled = True
     review_doc_upload
-  else:
-    exhibits_attachment.enabled = False
  
   set_progress(57.14)
   interview_order_late_docketing_statement = True
@@ -271,6 +268,9 @@ fields:
 #validation code: |
   #if has_document and sum(doc_upload.size_in_bytes() for doc_upload in doc_uploads) > (15 * 1024 * 1024):
     #validation_error("Upload a file smaller than 15 MB.")
+---
+code: | 
+  exhibits_attachment[i] = pdf_concatenate(doc_uploads)
 ---
 table: doc_uploads.table
 rows: doc_uploads
