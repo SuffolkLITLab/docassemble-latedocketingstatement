@@ -234,7 +234,7 @@ fields:
 id: Motion to Dismiss
 question: |
   Has another party in your case filed a motion to dismiss your appeal because you have not docketed it yet?
-yesno: motion_to_dismiss 
+yesnomaybe: motion_to_dismiss
 ---
 id: User Date
 question: |
