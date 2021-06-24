@@ -119,7 +119,6 @@ comment: |
 mandatory: True
 code: |
   al_intro_screen
-  late_docketing_statement_intro
   interview_order_late_docketing_statement
   signature_date
   # Save anonymized interview statistics (customize the saved data below)
@@ -127,14 +126,6 @@ code: |
   late_docketing_statement_preview_question
   basic_questions_signature_flow
   late_docketing_statement_download
----
-#More can probably be added here as an intro to the interview 
-id: Appeals_Late_Docketing_Statement
-continue button field: late_docketing_statement_intro
-question: |
-  Appeals Late Docketing Statement
-subquestion: |
-  Late Docketing Statement
 ---
 id: docket_number
 question: |
@@ -243,7 +234,7 @@ fields:
 id: Motion to Dismiss
 question: |
   Has another party in your case filed a motion to dismiss your appeal because you have not docketed it yet?
-yesno: motion_to_dismiss 
+yesnomaybe: motion_to_dismiss
 ---
 id: User Date
 question: |
