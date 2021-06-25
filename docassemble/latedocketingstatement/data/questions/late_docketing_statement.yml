@@ -93,7 +93,8 @@ code: |
   other_parties.gather()
   trial_court
   docket_number
-  appeals_docket_number
+  if knows_docket_number:
+    appeals_docket_number
   set_progress(14.29)
   notice_date
   excuse_description
@@ -146,16 +147,6 @@ fields:
       "Probate and Family Court",
       "Juvenile Court",
       "Land Court"])
----
-# Needs work; see google doc. If statement needed for url
-id: appeals_docket_number
-question: |
-  Appeals Docket Number
-subquestion: |
-  What is the Appeals Court docket number for your case? If this is the first document that you are filing in the Appeals Court, your case has not yet been assigned a docket number, and you may leave this question blank.
-fields:
-  - "Appeals Docket Number": appeals_docket_number
-    required: False
 ---
 id: notice_date
 question: |
@@ -235,6 +226,13 @@ id: Motion to Dismiss
 question: |
   Has another party in your case filed a motion to dismiss your appeal because you have not docketed it yet?
 yesnomaybe: motion_to_dismiss
+---
+id: Knows Docket Number
+question: |
+  Do you have your appeals docket number?
+fields: 
+  - no label: knows_docket_number
+    datatype: yesnoradio
 ---
 id: User Date
 question: |
