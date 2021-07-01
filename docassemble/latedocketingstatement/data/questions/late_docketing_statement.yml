@@ -4,6 +4,7 @@ include:
   - docassemble.ALMassachusetts:al_massachusetts.yml
   - docassemble.MassAccess:massaccess.yml
   - docassemble.MassAppealsCourt:appeals-basic-questions.yml
+  #- docassemble.AffidavitofIndigencyMAVC:affidavit_body.yml
 ---
 metadata:
   title: Motion for Leave to Late Docket Appeal
@@ -102,7 +103,8 @@ code: |
   issue_description
   user_date
   motion_delivery
-  attorney[0]
+  attorney[0].name.first
+  attorney[0].address.address
   set_progress(42.86)
   service_date
   motion_to_dismiss
@@ -224,7 +226,7 @@ fields:
 ---
 id: Motion to Dismiss
 question: |
-  Has another party in your case filed a motion to dismiss your appeal because you have not docketed it yet?
+  Have you been served a **Motion to Dismiss** by the other party? 
 yesnomaybe: motion_to_dismiss
 ---
 id: Knows Docket Number
@@ -259,7 +261,7 @@ fields:
     #validation_error("Upload a file smaller than 15 MB.")
 ---
 code: | 
-  exhibits_attachment[i] = pdf_concatenate(doc_uploads)
+  exhibits_attachment[i] = doc_uploads
 ---
 table: doc_uploads.table
 rows: doc_uploads
@@ -290,6 +292,8 @@ subquestion: |
   Here is a preview of the form you will sign on the next page.   
   
   ${ al_court_bundle.as_pdf(key='preview') }
+  
+  ${ al_user_bundle.as_pdf(key='preview') }
 
   Click the image to open it in a new tab. Click the "Make changes" button
   to edit your answers.
