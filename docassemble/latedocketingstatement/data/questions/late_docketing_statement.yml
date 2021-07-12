@@ -132,7 +132,7 @@ code: |
 ---
 id: docket_number
 question: |
-  What is the trial court docket number for your case?
+  What is the **Trial Court** docket number for your case?
 fields: 
   - Docket Number: docket_number
 ---
@@ -141,14 +141,10 @@ question: |
   Select the **Trial Court** department and division where your case was heard.
 fields:
   - no label: trial_court
-    datatype: object
-    choices: macourts.filter_courts(["Boston Municipal Court",
-      "District Court",
-      "Superior Court",
-      "Housing Court",
-      "Probate and Family Court",
-      "Juvenile Court",
-      "Land Court"])
+    datatype: combobox
+    code: |
+      sorted((set([str(y) for y in all_courts.filter_courts(["District Court","Boston Municipal Court", "Probate and Family Court","Housing Court", "Superior Court", "Juvenile Court", "Land Court"])])))  
+    hint: To select one start typing or look through the list
 ---
 id: notice_date
 question: |
@@ -231,7 +227,7 @@ yesnomaybe: motion_to_dismiss
 ---
 id: Knows Docket Number
 question: |
-  Do you have your appeals docket number?
+  Do you have your **Appeals Court** docket number?
 fields: 
   - no label: knows_docket_number
     datatype: yesnoradio
