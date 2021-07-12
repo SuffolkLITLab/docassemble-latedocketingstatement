@@ -175,7 +175,7 @@ fields:
 ---
 id: user_number
 question: |
-  Provide your current contact information. 
+  Provide your current contact information...
 fields: 
   - Phone Number: user_number
 ---
