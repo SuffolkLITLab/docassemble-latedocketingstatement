@@ -4,7 +4,7 @@ include:
   - docassemble.ALMassachusetts:al_massachusetts.yml
   - docassemble.MassAccess:massaccess.yml
   - docassemble.MassAppealsCourt:appeals-basic-questions.yml
-  #- docassemble.AffidavitofIndigencyMAVC:affidavit_body.yml
+  - docassemble.ALAffidavitOfIndigency:affidavit_body.yml
 ---
 metadata:
   title: Motion for Leave to Late Docket Appeal
@@ -114,7 +114,13 @@ code: |
     review_doc_upload
  
   set_progress(57.14)
+  set_indigency_defaults
+  if not knows_docket_number and ask_if_qualifies_for_fee_waiver:
+    ask_affidavit_questions    
   interview_order_late_docketing_statement = True
+---
+code: |
+  tried_geolocating = True
 ---
 ###################### Main order ######################
 comment: |
@@ -414,8 +420,31 @@ objects:
   - exhibits_attachment: ALDocument.using(title='Exhibits', filename='doc_uploads', has_addendum=False)
 ---
 objects:
-  - al_user_bundle: ALDocumentBundle.using(elements=[Post_interview_instructions,late_docketing_statement_attachment, exhibits_attachment], filename="late_docketing_statement_package.pdf", title="All forms to download for your records")
-  - al_court_bundle: ALDocumentBundle.using(elements=[late_docketing_statement_attachment, exhibits_attachment], filename="late_docketing_statement_package.pdf", title="All forms to download for your records")
+  - al_user_bundle: ALDocumentBundle.using(elements=[Post_interview_instructions,late_docketing_statement_attachment, exhibits_attachment, affidavitofindigency_attachment], filename="late_docketing_statement_package.pdf", title="All forms to download for your records")
+  - al_court_bundle: ALDocumentBundle.using(elements=[late_docketing_statement_attachment, exhibits_attachment, affidavitofindigency_attachment], filename="late_docketing_statement_package.pdf", title="All forms to download for your records")
+---
+code: |
+  affidavitofindigency_attachment.enabled = not knows_docket_number and (ask_if_qualifies_for_fee_waiver and is_indigent)
+---
+question: |
+  Getting the court to pay your fees
+subquestion: |
+  It costs about $165 to file a late docketing statement. But you may qualify
+  for a fee waiver. If you do, you will need to tell the court about your income.
+  
+  Do you want to find out?  
+field: ask_if_qualifies_for_fee_waiver
+buttons:  
+  - Find out if I qualify: True
+  - Skip: False
+---
+code: |
+  fees['Costs of an expert witness'].waive = False
+  fees['Filing fee'].waive = True
+  fees['Filing fee'].amount = 165
+  #case_name = "In the matter of " + users[0].name.full()
+  docket_numbers[0] = ''
+  set_indigency_defaults = True
 ---
 objects:
   - doc_uploads: DAFileList.using(auto_gather=False, gathered=True)
