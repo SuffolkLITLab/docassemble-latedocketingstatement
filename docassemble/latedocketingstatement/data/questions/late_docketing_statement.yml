@@ -230,7 +230,9 @@ fields:
 id: Motion to Dismiss
 question: |
   Have you been served a **Motion to Dismiss** by the other party? 
-yesnomaybe: motion_to_dismiss
+fields:
+  - no label: motion_to_dismiss
+    datatype: yesnomaybe
 ---
 id: Knows Docket Number
 question: |
@@ -375,6 +377,7 @@ review:
       ${ docket_number }
 ---
 continue button field: other_parties.revisit
+id: "edit other parties"
 question: |
   Edit other_parties
 subquestion: |
@@ -426,6 +429,7 @@ objects:
 code: |
   affidavitofindigency_attachment.enabled = not knows_docket_number and (ask_if_qualifies_for_fee_waiver and is_indigent)
 ---
+id: "getting the court to pay your fees"
 question: |
   Getting the court to pay your fees
 subquestion: |
