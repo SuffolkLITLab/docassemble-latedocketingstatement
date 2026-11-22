@@ -6,8 +6,9 @@ metadata:
   title: Ask to enter a Massachusetts civil appeal late
   short title: Enter an appeal late
   description: |
-    Make a motion and supporting affidavit asking a Massachusetts Appeals Court
-    single justice to let you enter (docket) a civil appeal after the deadline.
+    Missed the deadline to enter your civil appeal? Ask the Appeals Court for more
+    time. Make a motion and an affidavit. A motion is a written court request.
+    An affidavit is your signed statement of facts. This is for Massachusetts.
   authors:
     - Suffolk LIT Lab
   jurisdiction: NAM-US-US+MA
@@ -43,22 +44,25 @@ metadata:
   fees:
     - Filing fee: 315
   can_I_use_this_form: |
-    Use this interview if you represent yourself in a Massachusetts civil case,
-    already filed a notice of appeal, and received a notice of assembly of the record.
-    It asks for permission to enter the appeal late in the Appeals Court.
+    Use this form if you have no lawyer in a Massachusetts civil case.
+    You must have filed a notice of appeal. You must also have a notice of assembly.
+    A notice of appeal tells the trial court you want a higher court to review
+    its decision. A notice of assembly says your court record is ready.
+    It asks to add your appeal to the Appeals Court case list after the deadline.
     It does not ask to file a late notice of appeal or a late Civil Docketing Statement.
     It does not handle criminal appeals or an appeal that the trial court has dismissed.
   before_you_start: |
     Gather your notice of assembly, the case name and number, and contact details
     for the other parties or their lawyers. Be ready to explain why you missed
     the deadline and what errors you want the Appeals Court to review.
-    You will print and sign the motion and affidavit. This interview does not
-    file anything or make a separate motion to waive the filing fee.
+    You will print and sign your papers. This interview does not file them.
+    It does not make a motion to waive the fee (ask the court not to charge you).
   when_you_are_finished: |
-    Review and sign your papers. Serve copies on the other parties or their
-    lawyers and complete the certificate of service. File with the Appeals Court
-    single justice and send a courtesy copy to the trial court. Pay the fee or
-    file a fee-waiver motion with an affidavit of indigency. Keep copies.
+    Check and sign your papers. Send copies to the other people in the case or
+    their lawyers. Fill in the certificate of service, which says who got copies
+    and how. File with the Appeals Court single justice (one judge). Send a copy
+    to the trial court too. Pay the fee or ask to waive it. To ask, file a motion
+    and an affidavit of indigency, which tells the court about your money. Keep copies.
 ---
 code: |
   AL_DEFAULT_COUNTRY = "US"
@@ -120,10 +124,11 @@ id: late entry introduction
 question: |
   Ask to enter your appeal late
 subquestion: |
-  Entering an appeal means registering it with the Appeals Court. In a civil
-  case, the usual deadline is **14 days after you receive the notice of assembly**.
+  Entering an appeal means adding it to the Appeals Court case list. In a civil
+  case, the usual deadline is **14 days after you get the notice of assembly**.
+  That notice says the trial court record is ready. A civil case is not a criminal case.
 
-  This interview asks one Appeals Court judge, called a **single justice**,
+  A **motion** is a written request to a court. This motion asks one Appeals Court judge, called a **single justice**,
   to let you enter your appeal late. The judge decides whether to allow it.
 
   This is different from:
@@ -141,11 +146,11 @@ id: scope questions
 question: |
   Is this the right motion for you?
 fields:
-  - Are you representing yourself in a civil case?: civil_self_represented
+  - Do you have a civil case and no lawyer?: civil_self_represented
     datatype: yesnoradio
   - Have you already filed a notice of appeal in the trial court?: notice_filed
     datatype: yesnoradio
-  - Have you received a notice of assembly of the record?: assembly_received
+  - Have you gotten a notice of assembly of the record?: assembly_received
     datatype: yesnoradio
 ---
 event: wrong_motion
@@ -153,12 +158,12 @@ id: wrong motion
 question: |
   You may need a different step
 subquestion: |
-  This interview is for people representing themselves in a **civil case**.
-  You must have filed a notice of appeal and received a notice of assembly.
+  This interview is for people who have no lawyer in a **civil case**.
+  You must have filed a notice of appeal and gotten a notice of assembly.
 
   Read the [Appeals Court guide](https://www.mass.gov/info-details/guide-to-civil-and-criminal-panel-appeals)
-  or call the Appeals Court clerk at **617-725-8106** to find the right procedure.
-  Act promptly. There may be a deadline.
+  or call the Appeals Court clerk at **617-725-8106** to find the right steps.
+  Act soon. There may be a deadline.
   [Find legal help through MassLegalHelp](https://www.masslegalhelp.org/find-lawyer).
 
   ${ action_button_html(url_action("civil_self_represented"), label="Change my answers", color="info") }
@@ -170,8 +175,9 @@ id: dismissal status
 question: |
   Has the trial court dismissed your appeal?
 subquestion: |
-  Look for a court order dismissing the appeal. A request from the other side
-  to dismiss it is not itself a court order.
+  To **dismiss** an appeal means to end it. Look for an order from the court
+  that ends your appeal. The other side may have asked the court to end it.
+  That does not mean the court has done so.
 fields:
   - The trial court has dismissed my appeal: appeal_dismissed
     datatype: yesnoradio
@@ -189,7 +195,7 @@ subquestion: |
   This interview does not challenge an order that already dismissed your appeal.
   A motion to enter an appeal late may not undo that order.
 
-  Call the Appeals Court clerk at **617-725-8106** and seek legal help promptly.
+  Call the Appeals Court clerk at **617-725-8106** and get legal help soon.
   Ask what steps and deadlines apply to the dismissal order.
   [Find legal help through MassLegalHelp](https://www.masslegalhelp.org/find-lawyer).
 
@@ -200,14 +206,14 @@ buttons:
 ---
 id: pending dismissal warning
 question: |
-  Check the pending motion to dismiss
+  Check the motion to dismiss that is waiting for a ruling
 subquestion: |
-  A motion to dismiss is still before the trial court. A single justice
-  ordinarily will not decide a motion to enter the appeal late while that
-  motion is pending. Call the Appeals Court clerk at **617-725-8106** about
+  The trial court has not yet ruled on the motion to dismiss (end) your appeal.
+  The single justice usually waits for the trial court to rule on that motion.
+  Then the single justice can rule on your motion to enter the appeal late. Call the Appeals Court clerk at **617-725-8106** about
   the order of steps. Meet any trial court deadline to respond.
 
-  You can keep preparing this motion. This interview does not prepare your
+  You can keep working on this motion. This interview does not write your
   response to the motion to dismiss.
 continue button field: pending_dismissal_warning
 ---
@@ -225,8 +231,8 @@ id: case caption
 question: |
   What is the name of your case?
 subquestion: |
-  Copy the full case name from your trial court papers. Include all parties,
-  just as they appear there. For example: Taylor Green v. Morgan Rivera.
+  Copy the full case name from your trial court papers. Include all people or groups in the case,
+  just as they are listed there. For example: Taylor Green v. Morgan Rivera.
 fields:
   - Case name: case_caption
     input type: area
@@ -241,7 +247,7 @@ fields:
 ---
 id: appeals number available
 question: |
-  Has the Appeals Court given this matter a case number?
+  Has the Appeals Court given this case a number?
 subquestion: |
   This may be a single justice case number. Use the Appeals Court number only
   if you have one. The trial court number is different.
@@ -257,9 +263,9 @@ fields:
 ---
 id: notice received
 question: |
-  When did you receive the notice of assembly?
+  When did you get the notice of assembly?
 subquestion: |
-  Enter the day you received it, not the day printed on the notice.
+  Enter the day you got it, not the day printed on the notice.
 fields:
   - Date received: notice_date
     datatype: date
@@ -272,9 +278,9 @@ subquestion: |
   Explain what kept you from entering your appeal on time. Include important
   dates and what you did when you learned you missed the deadline.
 
-  The judge will decide whether your reasons amount to **excusable neglect**.
+  The judge will check whether your reasons meet the legal test for **excusable neglect**.
   That means a reason the court accepts for missing the deadline. Missing the
-  deadline does not automatically mean you will get more time.
+  deadline does not mean you will get more time.
 fields:
   - What happened?: excuse_description
     input type: area
@@ -283,18 +289,18 @@ id: issues on appeal
 question: |
   What errors do you want the Appeals Court to review?
 subquestion: |
-  Describe the trial court decision you want changed and the specific errors
-  you believe the court made. Explain why they matter to the result.
+  Tell us which trial court decision you want changed. List the errors
+  you think the court made. Explain why they matter to the result.
 
-  The judge must decide whether you have a **meritorious issue**: a real legal
-  question worth reviewing. You do not have to prove that you will win now.
+  The judge must find a **meritorious issue**: a real legal question worth
+  looking at. You do not have to prove that you will win now.
 fields:
   - Errors you want reviewed: issue_description
     input type: area
 ---
 id: other side position
 question: |
-  Do you know the other side's position on this motion?
+  Does the other side agree with this motion?
 fields:
   - no label: opposition_status
     choices:
@@ -311,8 +317,8 @@ subquestion: |
   Include each person's name, mailing address, and email address if you know it.
   You can list more than one person below.
 
-  Do not send an affidavit of indigency or other private fee-waiver papers
-  to the other parties.
+  Do not send the other parties papers about waiving fees. Those papers have
+  private facts about your money.
 fields:
   - Names and addresses: service_recipients
     input type: area
@@ -321,9 +327,10 @@ id: service completed
 question: |
   Have you already sent copies to everyone listed?
 subquestion: |
-  If you have not sent them yet, your certificate will have blank spaces for
-  the service date and method. Fill them in and sign the certificate
-  **after** you send the copies. Do not certify a planned delivery as completed.
+  Your **certificate of service** says who got copies and how you sent them.
+  If you have not sent copies yet, it will have blank spaces for the date and
+  how you sent them. Fill in the blanks and sign **after** you send the copies.
+  Do not sign to say you sent copies if you have not sent them yet.
 fields:
   - no label: service_done
     datatype: yesnoradio
@@ -332,24 +339,23 @@ id: service details
 question: |
   Tell us about the copies you sent
 subquestion: |
-  For email or electronic service, use a method allowed by the court's rules.
-  Ordinary email generally requires the recipient's consent.
-  If you used different methods or dates, describe each recipient separately.
+  Sending copies is called **service**. Follow the court rules for how to send
+  them. To use regular email, you usually need the other person to agree.
+  If you sent copies in different ways or on different dates, list each person.
 fields:
   - Last date copies were sent: service_date
     datatype: date
     max: ${ today() }
-  - Dates and delivery methods for each recipient: service_method
+  - Dates and how you sent copies to each person: service_method
     input type: area
-    hint: For example, first-class mail to both recipients on the date above.
+    hint: For example, first-class mail to both people on the date above.
 ---
 id: supporting documents choice
 question: |
   Do you want to attach supporting documents?
 subquestion: |
-  You can attach your notice of assembly and documents that support your
-  explanation. Include only papers needed for this request. Keep fee-waiver
-  papers separate because they contain private financial information.
+  You can add your notice of assembly and other papers to show what happened. Use only papers needed to explain why you should get more time. Keep papers
+  about waiving fees separate. They have private facts about your money.
 fields:
   - no label: has_documents
     datatype: yesnoradio
@@ -372,25 +378,27 @@ question: |
 subquestion: |
   This interview does **not** file your motion. You will need to:
 
-  1. Review and sign the motion and affidavit. The affidavit is your statement
-     of facts signed under the penalties of perjury.
-  2. Send copies to the other parties or their lawyers. Then complete and sign
+  1. Check and sign the motion and **affidavit**. An affidavit is your statement
+     of facts. You sign under the **penalties of perjury**. This means you can
+     be punished if you lie.
+  2. Send copies to the other parties or their lawyers. Then fill in and sign
      the certificate of service.
-  3. File with the **Appeals Court single justice** and send a courtesy copy
+  3. File with the **Appeals Court single justice** and send a copy
      to the trial court. Call **617-725-8106** about filing methods if needed.
-  4. Pay the **$315 civil filing fee**, or submit a motion to waive the fee
-     with an affidavit of indigency. Additional fees may apply when you enter
-     the appeal after permission is granted.
+  4. Pay the **$315 civil filing fee**. Or file a motion to **waive the fee**.
+     This means you ask the court not to charge you. You must also file an **affidavit of
+     indigency**, which tells the court about your money. You may owe more fees
+     to enter the appeal if the judge lets you do so.
 
   Need a fee waiver? Use the separate
   [Affidavit of Indigency interview](https://apps.suffolklitlab.org/start/indigency/).
   You also need to ask the Appeals Court to waive its entry fee. This interview
-  does not make that separate motion. Keep financial papers out of the copies
+  does not make that separate motion. Keep papers about your money out of the copies
   you send to the other side.
   [MassLegalHelp explains how to fill out the affidavit](https://www.masslegalhelp.org/courts-hearings-language-rights/courts-massachusetts/how-fill-out-affidavit-indigency).
 
   Check the [court's current instructions](https://www.mass.gov/info-details/single-justice-practice)
-  before filing. A judge must grant your request before you can rely on it.
+  before filing. You must wait for a judge to say yes before you can enter the appeal.
 continue button field: filing_information
 ---
 id: preview late docketing motion
@@ -399,8 +407,8 @@ question: |
 subquestion: |
   ${ al_court_bundle.as_pdf(key="final") }
 
-  Check the case details, your reasons, and your service information.
-  Your documents have blank signature lines for you to sign after printing.
+  Check the case details, your reasons, and how you sent copies.
+  Your documents have blank lines for you to sign after printing.
 
   ${ action_button_html(url_action("review_late_docketing_statement"), label="Make changes", color="info") }
 continue button field: late_docketing_statement_preview
@@ -439,16 +447,16 @@ review:
       **Errors to review:** ${ issue_description }
   - Edit: opposition_status
     button: |
-      **Other parties' position:** ${ opposition_status }
+      **What the other side says:** ${ opposition_status }
   - Edit: appeal_dismissed
     button: |
       **Appeal dismissed by the trial court:** ${ word(yesno(appeal_dismissed)) }
       % if not appeal_dismissed:
-      **Pending motion to dismiss:** ${ word(yesno(dismissal_motion_pending)) }
+      **Motion to dismiss waiting for a ruling:** ${ word(yesno(dismissal_motion_pending)) }
       % endif
   - Edit: service_recipients
     button: |
-      **People receiving copies:** ${ service_recipients }
+      **People who get copies:** ${ service_recipients }
   - Edit: service_done
     button: |
       **Copies already sent:** ${ word(yesno(service_done)) }

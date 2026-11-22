@@ -1,5 +1,5 @@
 {
-  "source_sha256": "54308f97dbda65ea340d2fcc52dc3280bc3490db729ec66aaa63dfe34a7cc269",
+  "source_sha256": "29584f7268aab10c7ed84b0632b63d6132efca447ddd22bff1019ee43fb25042",
   "plain_language_review": {
     "passed": false,
     "reviewer": "Codex AI review, not human usability testing",
@@ -124,5 +124,29 @@
   "maintainer_decisions": {
     "date": "2026-11-22",
     "approval": "User approved scope and pending-dismissal warning and authorized MIT license. Original student attribution retained; copyright credits contributors. This scoped decision does not imply completed review of every final document or publication approval."
+  },
+  "readability_review": {
+    "date": "2026-11-22",
+    "method": "Actual DAYamlChecker --style --style-review-level thorough; manual review of all local YAML visible text/metadata and both DOCX files; wordfreq English top4000 exact forms and textstat Flesch-Kincaid. No paid AI API.",
+    "before": {
+      "metadata_fk": 9.6,
+      "screens_fk": 6.9,
+      "templates_fk": 9.2,
+      "checker_findings": 20
+    },
+    "after": {
+      "metadata_fk": 5.6,
+      "screens_fk": 5.4,
+      "templates_fk": 6.2,
+      "checker_findings": 6
+    },
+    "exceptions": [
+      "Formal document titles FK12.3 retained for court use.",
+      "Motion paragraph retains excusable neglect and meritorious issue (FK9.9); both explained in screens.",
+      "Sworn affidavit declaration retains penalties of perjury (FK10.0); plainly explained before signing.",
+      "Service certificate factual attestation FK6.8; purpose and timing explained in plain text.",
+      "Exact top4000 flags include legal terms, court/place names, ordinary inflections and possessives. Raw metrics retain all flags; no claim every word is top4000."
+    ],
+    "validation": "Three DOCX render regressions pass. No interview variables, branching, choices values, or output conditions changed; runtime flows were tested previously. Wording-only pass does not claim fresh end-to-end runtime or human comprehension testing."
   }
 }
