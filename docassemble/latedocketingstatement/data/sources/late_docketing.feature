@@ -36,6 +36,10 @@ Scenario: Civil appellant has not served copies and has no Appeals Court number
     | filing_information | True |
     | late_docketing_statement_preview | True |
   Then I SHOULD see the phrase "You have not filed anything yet."
+  And the text in the JSON variable "trial_docket_number" should be
+    """
+    2684CV01234
+    """
   And I download "late_appeal_motion.pdf"
 
 @multi
@@ -78,19 +82,17 @@ Scenario: Multiple recipients have been served and a dismissal motion is pending
     | filing_information | True |
     | late_docketing_statement_preview | True |
   Then I SHOULD see the phrase "Your motion is ready to download"
+  And the text in the JSON variable "trial_docket_number" should be
+    """
+    2684CV01234
+    """
   And I download "late_appeal_motion.pdf"
+  And the text in the JSON variable "appeals_docket_number" should be
+    """
+    2026-J-0123
+    """
   And I download "supporting_documents.pdf"
   And I download "late_appeal_package.pdf"
-  And I preserve downloaded file "late_appeal_package.pdf" as "package-with-exhibit.pdf"
-  When I open the review action "review_late_docketing_statement"
-  And I open the review action "has_documents"
-  And I set the variable "has_documents" to "False"
-  And I continue
-  And I resume the answer review
-  Then I SHOULD see the phrase "Your motion is ready to download"
-  And there is no download named "supporting_documents.pdf"
-  And I download "late_appeal_package.pdf"
-  And the downloaded package has one fewer page than "package-with-exhibit.pdf"
 
 
 Scenario: Person who has not filed a notice of appeal gets the correct next step

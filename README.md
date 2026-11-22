@@ -14,13 +14,11 @@ Run output regression checks with:
 uv run --with docxtpl --with pytest pytest tests
 ```
 
-Three ALKiln scenarios cover an unserved motion without an Appeals Court number, service on multiple recipients with a pending dismissal motion, and a person who needs a different procedure. With the package installed on a local test server and local credentials configured:
+Three scenarios in `data/sources/late_docketing.feature` use only built-in ALKiln 5 steps. They cover an unserved motion without an Appeals Court number, service on multiple recipients with a pending dismissal motion and an exhibit, and a person who needs a different procedure. They check answers and download the resulting PDFs. Use the standard [ALKiln setup and testing instructions](https://suffolklitlab.org/docassemble-AssemblyLine-documentation/docs/alkiln/intro) to run them.
 
-```sh
-python tests/run_alkiln.py .
-```
+Also check exhibit removal by hand: finish the served scenario with its one-page exhibit, download the combined packet, choose **Make changes**, edit supporting documents to **No**, and return to download. The exhibit download must disappear and the new packet must have one fewer page. Native ALKiln steps cannot compare page counts or download the same filename twice in one scenario. The earlier successful custom-helper run is historical evidence, not a claim that the current native suite automates this check.
 
-The runner keeps credentials in memory and ignores local test artifacts. Automated checks and research do not substitute for attorney or publication approval. Review evidence is in `publication-evidence.json`.
+Automated checks and research do not substitute for attorney or publication approval. Review evidence is in `publication-evidence.json`.
 
 Original student author contact: racosta2@su.suffolk.edu.
 

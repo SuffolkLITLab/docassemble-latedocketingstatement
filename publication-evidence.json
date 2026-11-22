@@ -1,5 +1,5 @@
 {
-  "source_sha256": "e6a57f9d2af6368ac972d8d512fcf8685fd70c43d3bc78db71cdc3c6940e516d",
+  "source_sha256": "65cbd94d0b4a4394f1c7f56fbf6329af4c3b9a70ada36a08f7728ec58052121a",
   "plain_language_review": {
     "passed": false,
     "reviewer": "Codex AI review, not human usability testing",
@@ -71,7 +71,7 @@
   "tests": {
     "output_regressions": "3 passed after final template changes; rendered sample PDF visually reviewed (3 pages, no blank pages, no clipped text).",
     "alkiln": {
-      "result": "All three final interview paths passed across final targeted/full runs. Extended exhibit removal and wrong-motion passed in 105000; basic PDF download passed in 105435. Full-suite browser flake remains recorded.",
+      "result": "Historical runtime evidence before native-step migration: all three interview paths passed across runs. Current built-in-only scenarios dry-run successfully but have not been run end-to-end.",
       "runs": [
         {
           "id": "20261122-102645",
@@ -107,7 +107,13 @@
         }
       ],
       "output_checks": "Live unserved motion: 3 pages, blank service dates/methods, no missing variables. Live served motion: correct court number, two recipients, pending-dismissal statement, date and method. Uploaded image becomes a one-page PDF. Final edit/removal test confirms supporting-document link disappears and regenerated combined packet has exactly one fewer page; no stale exhibit survives.",
-      "limitations": "No human usability test. Dismissed-appeal exit reviewed statically. Earlier full run had a browser navigation-context race; local helper now awaits POST navigation and retries read-only probes. Final basic rerun passed."
+      "limitations": "No human usability test. Dismissed-appeal exit reviewed statically. Earlier full run had a browser navigation-context race; local helper now awaits POST navigation and retries read-only probes. Final basic rerun passed. Custom runner and helper patches were later removed at user request; earlier results do not certify the current native runner."
+    },
+    "native_alkiln_cleanup": {
+      "date": "2026-11-22",
+      "changes": "Removed custom Python runner and private JS step/navigation patches. Three feature scenarios now use only built-in ALKiln5 steps, including JSON answer checks and PDF downloads.",
+      "validation": "Stable npm ALKiln5.17.2 Cucumber dry-run loading only lib/index.js: 3 scenarios/20 steps, all defined; skipped by dry-run. No fresh runtime run or server installation. Official manual GitHub workflow uses isolated temporary server.",
+      "manual_check": "Exhibit removal plus packet page-count comparison is documented in README; earlier custom-helper success retained as historical evidence only."
     }
   },
   "external_review": {
