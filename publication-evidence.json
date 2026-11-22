@@ -1,22 +1,22 @@
 {
-  "source_sha256": "1fb2a021ce4d1fa08af2fa2148cc29888143a41a6a45aa727d79e33d939ab435",
+  "source_sha256": "20077065a1ec59ca5f1edc8d131437c758d29600e6218bbe70dbea3112ec635b",
   "plain_language_review": {
-    "passed": true,
+    "passed": false,
     "reviewer": "Codex AI review, not human usability testing",
     "date": "2026-11-22",
-    "evidence": "Read every local question, review row, output template and next-steps document using DAYamlChecker plain-language/tone prompts and Assembly Line readability and exit-screen guidance. Replaced unexplained excusable-neglect and meritorious-issue prompts with factual questions plus definitions. Made motion scope, print/sign, service and separate fee-waiver steps explicit."
+    "evidence": "Read every local question, review row, output template and next-steps document using DAYamlChecker plain-language/tone prompts and Assembly Line readability and exit-screen guidance. Replaced unexplained excusable-neglect and meritorious-issue prompts with factual questions plus definitions. Made motion scope, print/sign, service and separate fee-waiver steps explicit. AI review is supporting evidence only; formal human review remains pending."
   },
   "interview_flow_review": {
-    "passed": true,
+    "passed": false,
     "reviewer": "Codex static source review",
     "date": "2026-11-22",
-    "evidence": "Reviewed all local branches and output conditions: wrong-motion and dismissed-appeal exits, pending dismissal warning, optional Appeals Court number, served/unserved certificate, optional uploads, answer review. Render regression tests cover omitted conditional variables and long text. Runtime validation recorded separately; no implication of human testing."
+    "evidence": "Reviewed all local branches and output conditions: wrong-motion and dismissed-appeal exits, pending dismissal warning, optional Appeals Court number, served/unserved certificate, optional uploads, answer review. Render regression tests cover omitted conditional variables and long text. Runtime validation recorded separately; no implication of human testing. AI review is supporting evidence only; formal human review remains pending."
   },
   "legal_review": {
     "passed": false,
     "reviewer": "Attorney review pending",
     "date": "2026-11-22",
-    "evidence": "AI source comparison only. Current court guidance supports civil late-entry scope, $315 single-justice fee, affidavit addressing delay and merits, Rule13 service, Rule20 motion formatting. Attorney should review final motion/affidavit and pending-dismissal guidance before publication."
+    "evidence": "AI source comparison only. Current court guidance supports civil late-entry scope, $315 single-justice fee, affidavit addressing delay and merits, Rule13 service, Rule20 motion formatting. Attorney should review final motion/affidavit and pending-dismissal guidance before publication. User approved the scope and pending-dismissal warning on 2026-11-22; full final-document review remains pending."
   },
   "publication_review": {
     "passed": false,
@@ -32,7 +32,9 @@
       "https://www.mass.gov/rules-of-appellate-procedure/appellate-procedure-rule-10-docketing-the-appeal",
       "https://www.mass.gov/rules-of-appellate-procedure/appellate-procedure-rule-13-filing-and-service",
       "https://www.mass.gov/rules-of-appellate-procedure/appellate-procedure-rule-15-motions",
-      "https://www.mass.gov/rules-of-appellate-procedure/appellate-procedure-rule-20-form-and-length-of-briefs-appendices-and-other-documents"
+      "https://www.mass.gov/rules-of-appellate-procedure/appellate-procedure-rule-20-form-and-length-of-briefs-appendices-and-other-documents",
+      "https://www.masslegalhelp.org/courts-hearings-language-rights/courts-massachusetts/how-fill-out-affidavit-indigency",
+      "https://www.masslegalhelp.org/find-lawyer"
     ],
     "checked": "2026-11-22",
     "findings_fixed": [
@@ -47,8 +49,8 @@
       "Live runtime test found and fixed upload accept syntax that static checker did not reject."
     ],
     "remaining_decisions": [
-      "Attorney approval of final motion/affidavit and pending-dismissal guidance.",
-      "Maintainer approval of self-represented civil scope and separate fee-waiver workflow."
+      "Attorney review of final generated motion and affidavit.",
+      "Formal human plain-language/flow and final publication approval."
     ],
     "taxonomy": {
       "codes": [
@@ -69,7 +71,7 @@
   "tests": {
     "output_regressions": "3 passed after final template changes; rendered sample PDF visually reviewed (3 pages, no blank pages, no clipped text).",
     "alkiln": {
-      "result": "All 3 scenarios passed on localhost; actual PDF downloads verified on completion scenarios.",
+      "result": "All three scenarios have passed locally; final full run has a documented browser-harness navigation failure on the basic path, while final extended exhibit-removal and wrong-motion scenarios pass.",
       "runs": [
         {
           "id": "20261122-102645",
@@ -90,10 +92,33 @@
         {
           "id": "20261122-103044",
           "result": "Second scenario plus actual motion and supporting-document downloads: 1 scenario, 6 steps passed."
+        },
+        {
+          "id": "20261122-104738",
+          "result": "Final extended multi scenario: 1 scenario, 17 steps passed including exhibit removal and regenerated combined PDF page count."
+        },
+        {
+          "id": "20261122-105000",
+          "result": "Final full suite: 2 passed, 1 failed (Puppeteer Execution context was destroyed on basic path), 24 steps passed; extended exhibit-removal and wrong-motion scenarios passed. Earlier basic output download and full three-path suite passed."
         }
       ],
-      "output_checks": "Live unserved motion: 3 pages, blank service dates/methods, no missing variables. Live served motion: correct court number, two recipients, pending-dismissal statement, date and method. Uploaded image becomes a one-page PDF.",
-      "limitations": "No human usability test. Dismissed-appeal exit and interactive answer editing reviewed statically; wrong-motion exit exercised live."
+      "output_checks": "Live unserved motion: 3 pages, blank service dates/methods, no missing variables. Live served motion: correct court number, two recipients, pending-dismissal statement, date and method. Uploaded image becomes a one-page PDF. Final edit/removal test confirms supporting-document link disappears and regenerated combined packet has exactly one fewer page; no stale exhibit survives.",
+      "limitations": "No human usability test. Dismissed-appeal exit reviewed statically. Earlier review-navigation attempts encountered ALKiln/Puppeteer timing failures; final explicit resume step passed."
     }
+  },
+  "external_review": {
+    "reviewer": "Neon independent review, adjudicated by Codex",
+    "fixed": [
+      "Guarded review row against undefined conditional dismissal answer",
+      "Clarified certificate date label",
+      "Enabled tagged PDFs explicitly",
+      "Expanded metadata and relevant MassLegalHelp help links",
+      "All formal review gates remain unasserted pending human review"
+    ],
+    "exhibit_cache": "AssemblyLine DALazyAttribute caches per page, ALDocument.is_enabled(refresh=True) deletes enabled after evaluation, and as_pdf(refresh=True) retrieves fresh attachment. Standalone enabled assignment follows documented pattern; live removal regression added."
+  },
+  "maintainer_decisions": {
+    "date": "2026-11-22",
+    "approval": "User approved scope and pending-dismissal warning and authorized MIT license. Original student attribution retained; copyright credits contributors. This scoped decision does not imply completed review of every final document or publication approval."
   }
 }

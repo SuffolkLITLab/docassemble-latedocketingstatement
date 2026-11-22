@@ -27,7 +27,7 @@ def test_motion_and_affidavit_preserve_answers(tmp_path,served,number,pending):
     assert ('November 20, 2026' in text)==served
     assert ('2026-J-0123' in text)==number
     assert ('A motion to dismiss my appeal is pending' in text)==pending
-    if not served:assert 'Service completed by: ____________________' in text
+    if not served:assert 'Date service was completed: ____________________' in text
 
 def test_no_embedded_private_financial_documents():
     yaml=(TEMPLATE.parents[1]/'questions/late_docketing_statement.yml').read_text()

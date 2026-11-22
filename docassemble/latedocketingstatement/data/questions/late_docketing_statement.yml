@@ -7,9 +7,8 @@ metadata:
   short title: Enter an appeal late
   description: |
     Make a motion and supporting affidavit asking a Massachusetts Appeals Court
-    single justice to let you enter a civil appeal after the deadline.
+    single justice to let you enter (docket) a civil appeal after the deadline.
   authors:
-    - racosta2@su.suffolk.edu
     - Suffolk LIT Lab
   jurisdiction: NAM-US-US+MA
   LIST_topics:
@@ -20,11 +19,24 @@ metadata:
     - en
   help_page_url: https://www.mass.gov/info-details/single-justice-practice
   help_page_title: Appeals Court single justice practice
-  original_form: https://www.mass.gov/info-details/single-justice-practice
+  original_form:
+    - https://www.mass.gov/info-details/single-justice-practice
   form_titles:
     - Motion for Leave to Docket Appeal Late
     - Affidavit in Support of Motion for Leave to Docket Appeal Late
     - Certificate of Service
+  maturity: testing
+  allowed_courts:
+    - Massachusetts Appeals Court
+  typical_role: appellant
+  form_numbers: []
+  requires_notarization: False
+  efiling_enabled: False
+  integrated_efiling: False
+  integrated_email_filing: False
+  update_notes: |
+    Revised scope, motion and affidavit, service certificate, and filing guidance.
+    Source and runtime checks completed; attorney and maintainer approval pending.
   review_date: 2026-11-22
   estimated_completion_minutes: 20
   estimated_completion_delta: 10
@@ -147,6 +159,7 @@ subquestion: |
   Read the [Appeals Court guide](https://www.mass.gov/info-details/guide-to-civil-and-criminal-panel-appeals)
   or call the Appeals Court clerk at **617-725-8106** to find the right procedure.
   Act promptly. There may be a deadline.
+  [Find legal help through MassLegalHelp](https://www.masslegalhelp.org/find-lawyer).
 
   ${ action_button_html(url_action("civil_self_represented"), label="Change my answers", color="info") }
 buttons:
@@ -178,6 +191,7 @@ subquestion: |
 
   Call the Appeals Court clerk at **617-725-8106** and seek legal help promptly.
   Ask what steps and deadlines apply to the dismissal order.
+  [Find legal help through MassLegalHelp](https://www.masslegalhelp.org/find-lawyer).
 
   ${ action_button_html(url_action("appeal_dismissed"), label="Change my answer", color="info") }
 buttons:
@@ -373,6 +387,7 @@ subquestion: |
   You also need to ask the Appeals Court to waive its entry fee. This interview
   does not make that separate motion. Keep financial papers out of the copies
   you send to the other side.
+  [MassLegalHelp explains how to fill out the affidavit](https://www.masslegalhelp.org/courts-hearings-language-rights/courts-massachusetts/how-fill-out-affidavit-indigency).
 
   Check the [court's current instructions](https://www.mass.gov/info-details/single-justice-practice)
   before filing. A judge must grant your request before you can rely on it.
@@ -427,7 +442,10 @@ review:
       **Other parties' position:** ${ opposition_status }
   - Edit: appeal_dismissed
     button: |
+      **Appeal dismissed by the trial court:** ${ word(yesno(appeal_dismissed)) }
+      % if not appeal_dismissed:
       **Pending motion to dismiss:** ${ word(yesno(dismissal_motion_pending)) }
+      % endif
   - Edit: service_recipients
     button: |
       **People receiving copies:** ${ service_recipients }
@@ -454,7 +472,7 @@ subquestion: |
   **You have not filed anything yet.** Print and sign your papers. Follow the
   instructions included with your download. Keep a copy of everything.
 
-  ${ al_user_bundle.download_list_html() }
+  ${ al_user_bundle.download_list_html(include_full_pdf=True) }
 
   ${ action_button_html(url_action("review_late_docketing_statement"), label="Make changes", color="info") }
 progress: 100
@@ -477,9 +495,11 @@ attachments:
     filename: late_appeal_motion
     variable name: late_docketing_statement_attachment[i]
     docx template file: late_docketing_statement.docx
+    tagged pdf: True
     skip undefined: False
   - name: Filing instructions
     filename: late_appeal_instructions
     variable name: next_steps[i]
     docx template file: late_docketing_statement_next_steps.docx
+    tagged pdf: True
     skip undefined: False

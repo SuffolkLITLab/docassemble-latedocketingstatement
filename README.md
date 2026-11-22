@@ -23,3 +23,5 @@ python tests/run_alkiln.py .
 The runner keeps credentials in memory and ignores local test artifacts. Automated checks and research do not substitute for attorney or publication approval. Review evidence is in `publication-evidence.json`.
 
 Original student author contact: racosta2@su.suffolk.edu.
+
+The Appeals Court's single-justice guidance controls the procedure and fee. For accessible background, the interview links MassLegalHelp's [fee-waiver instructions](https://www.masslegalhelp.org/courts-hearings-language-rights/courts-massachusetts/how-fill-out-affidavit-indigency) and [legal-help directory](https://www.masslegalhelp.org/find-lawyer).
