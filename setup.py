@@ -43,16 +43,16 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
     return out
 
 setup(name='docassemble.latedocketingstatement',
-      version='0.0.1',
-      description=(''),
+      version='0.1.0',
+      description=('Prepare a motion to enter a Massachusetts civil appeal late'),
       long_description='# docassemble.latedocketingstatement\r\n\r\n\r\n\r\n## Author\r\n\r\nracosta2@su.suffolk.edu\r\n\r\n',
       long_description_content_type='text/markdown',
-      author='',
+      author='Suffolk LIT Lab',
       author_email='racosta2@su.suffolk.edu',
-      license='',
-      url='https://docassemble.org',
+      license='MIT',
+      url='https://github.com/SuffolkLITLab/docassemble-latedocketingstatement',
       packages=find_namespace_packages(),
-      install_requires=[],
+      install_requires=['docassemble.AssemblyLine'],
       zip_safe=False,
       package_data=find_package_data(where='docassemble/latedocketingstatement/', package='docassemble.latedocketingstatement'),
      )
