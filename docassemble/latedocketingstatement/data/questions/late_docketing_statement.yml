@@ -1,478 +1,485 @@
 ---
 include:
   - docassemble.AssemblyLine:al_package.yml
-  - docassemble.ALMassachusetts:al_massachusetts.yml
-  - docassemble.MassAccess:massaccess.yml
-  - docassemble.MassAppealsCourt:appeals-basic-questions.yml
-  - docassemble.ALAffidavitOfIndigency:affidavit_body.yml
 ---
 metadata:
-  title: Motion for Leave to Late Docket Appeal
-  short title: Late Docketing Statement
-  comment: Late Docketing Statement
+  title: Ask to enter a Massachusetts civil appeal late
+  short title: Enter an appeal late
+  description: |
+    Make a motion and supporting affidavit asking a Massachusetts Appeals Court
+    single justice to let you enter a civil appeal after the deadline.
+  authors:
+    - racosta2@su.suffolk.edu
+    - Suffolk LIT Lab
+  jurisdiction: NAM-US-US+MA
+  LIST_topics:
+    - CO-07-02-00-00
   tags:
-    - BE-00-00-00-00
-    - BE-04-00-00-00
-    - ED-00-00-00-00
-    - ES-00-00-00-00
-    - FA-00-00-00-00
-    - FA-07-00-00-00
-    - HE-00-00-00-00
-    - HO-00-00-00-00
-    - IM-00-00-00-00
-    - MO-00-00-00-00
-    - RI-10-00-00-00
----
-mandatory: True
-comment: |
-  This contains metadata that will not be overwritten if this YAML file is included in another file. Each file gets its own key in the interview_metadata dictionary. Most keys are not currently used at runtime, other than "allowed courts".
-code: |
-  interview_metadata
-  if not defined("interview_metadata['late_docketing_statement']"):
-    interview_metadata.initializeObject("late_docketing_statement")
-    interview_metadata["late_docketing_statement"].update({
-      "al_weaver_version": "1.0.2",
-      "generated on": "2021-06-08",
-      "title": "Appeals Late Docketing Statement",
-      "short title": "Late docketing statement",
-      "description": "Late docketing statement",
-      "original_form": "",
-      "allowed courts": [
-        "Boston Municipal Court",
-        "District Court",
-        "Housing Court",
-        "Juvenile Court",
-        "Land Court",
-        "Probate and Family Court",
-        "Superior Court",
-      ],
-      "categories": [
-        "BE-00-00-00-00",
-        "RI-10-00-00-00",
-        "FA-00-00-00-00",
-        "ED-00-00-00-00",
-        "IM-00-00-00-00",
-        "HE-00-00-00-00",
-        "HO-00-00-00-00",
-        "ES-00-00-00-00",
-        "FA-07-00-00-00",
-        "MO-00-00-00-00",
-        "BE-04-00-00-00",
-      ],        
-      "logic block variable": "interview_order_late_docketing_statement",
-      "attachment block variable": "late_docketing_statement_attachment",
-      "typical role": "unknown",
-    })
+    - CO-07-02-00-00
+  languages:
+    - en
+  help_page_url: https://www.mass.gov/info-details/single-justice-practice
+  help_page_title: Appeals Court single justice practice
+  original_form: https://www.mass.gov/info-details/single-justice-practice
+  form_titles:
+    - Motion for Leave to Docket Appeal Late
+    - Affidavit in Support of Motion for Leave to Docket Appeal Late
+    - Certificate of Service
+  review_date: 2026-11-22
+  estimated_completion_minutes: 20
+  estimated_completion_delta: 10
+  fees:
+    - Filing fee: 315
+  can_I_use_this_form: |
+    Use this interview if you represent yourself in a Massachusetts civil case,
+    already filed a notice of appeal, and received a notice of assembly of the record.
+    It asks for permission to enter the appeal late in the Appeals Court.
+    It does not ask to file a late notice of appeal or a late Civil Docketing Statement.
+    It does not handle criminal appeals or an appeal that the trial court has dismissed.
+  before_you_start: |
+    Gather your notice of assembly, the case name and number, and contact details
+    for the other parties or their lawyers. Be ready to explain why you missed
+    the deadline and what errors you want the Appeals Court to review.
+    You will print and sign the motion and affidavit. This interview does not
+    file anything or make a separate motion to waive the filing fee.
+  when_you_are_finished: |
+    Review and sign your papers. Serve copies on the other parties or their
+    lawyers and complete the certificate of service. File with the Appeals Court
+    single justice and send a courtesy copy to the trial court. Pay the fee or
+    file a fee-waiver motion with an affidavit of indigency. Keep copies.
 ---
 code: |
-  interview_short_title = "Get a Late Docketing Statement"
----
-code: |
-  al_form_type = 'appeal'
+  AL_DEFAULT_COUNTRY = "US"
+  AL_DEFAULT_STATE = "MA"
+  al_form_type = "other_form"
+  interview_short_title = "Ask to enter a civil appeal late"
+  github_repo_name = "docassemble-latedocketingstatement"
 ---
 objects:
-  - other_parties: ALPeopleList.using(there_are_any=True)
-  - users: ALPeopleList.using(there_are_any=True)
-  - attorney: ALPeopleList
+  - users: ALPeopleList.using(target_number=1)
 ---
 sections:
-  - review_late_docketing_statement: Review your answers
+  - eligibility: Is this the right motion?
+  - case: Your case
+  - reasons: Your reasons
+  - delivery: Copies and filing
+  - review: Review and download
 ---
-#################### Interview order #####################
-comment: |
-  Controls order and branching logic for questions specific to this form
-id: interview_order_late_docketing_statement
-code: |
-  # Set the allowed courts for this interview
-  allowed_courts = interview_metadata["late_docketing_statement"]["allowed courts"]
-  nav.set_section('review_late_docketing_statement')
-  # Below sets the user_role by asking a question.
-  # You can set user_role directly instead to either 'plaintiff' or 'defendant'
-  user_ask_role #edit
-  users[0].name.first
-  users[0].email
-  users[0].phone_number
-  other_parties.gather()
-  trial_court
-  docket_number
-  if knows_docket_number:
-    appeals_docket_number
-  set_progress(14.29)
-  notice_date
-  excuse_description
-  set_progress(28.57)
-  issue_description
-  user_date
-  motion_delivery
-  attorney[0].name.first
-  attorney[0].address.address
-  set_progress(42.86)
-  service_date
-  motion_to_dismiss
-  
-  if has_document: 
-    review_doc_upload
- 
-  set_progress(57.14)
-  set_indigency_defaults
-  if not knows_docket_number and ask_if_qualifies_for_fee_waiver:
-    ask_affidavit_questions    
-  interview_order_late_docketing_statement = True
----
-code: |
-  tried_geolocating = True
----
-###################### Main order ######################
-comment: |
-  This block includes the logic for standalone interviews.
-  Delete mandatory: True to include in another interview
 mandatory: True
 code: |
   al_intro_screen
-  interview_order_late_docketing_statement
-  signature_date
-  # Save anonymized interview statistics (customize the saved data below)
-  store_variables_snapshot(data={'zip': users[0].address.zip})
-  late_docketing_statement_preview_question
-  basic_questions_signature_flow
+  nav.set_section("eligibility")
+  late_entry_intro
+  if not civil_self_represented or not notice_filed or not assembly_received:
+    wrong_motion
+  if appeal_dismissed:
+    dismissed_appeal
+  if dismissal_motion_pending:
+    pending_dismissal_warning
+  nav.set_section("case")
+  users[0].name.first
+  users[0].address.address
+  contact_phone
+  case_caption
+  trial_court_name
+  has_appeals_number
+  if has_appeals_number:
+    appeals_docket_number
+  nav.set_section("reasons")
+  notice_date
+  excuse_description
+  issue_description
+  opposition_status
+  nav.set_section("delivery")
+  service_recipients
+  service_done
+  if service_done:
+    service_date
+    service_method
+  has_documents
+  if has_documents:
+    supporting_documents
+  filing_information
+  nav.set_section("review")
+  late_docketing_statement_preview
   late_docketing_statement_download
 ---
-id: docket_number
+id: late entry introduction
 question: |
-  What is the **Trial Court** docket number for your case?
-fields: 
-  - Docket Number: docket_number
----
-id: trial court division 
-question: | 
-  Select the **Trial Court** department and division where your case was heard.
-fields:
-  - no label: trial_court
-    datatype: combobox
-    code: |
-      sorted((set([str(y) for y in all_courts.filter_courts(["District Court","Boston Municipal Court", "Probate and Family Court","Housing Court", "Superior Court", "Juvenile Court", "Land Court"])])))  
-    hint: To select one start typing or look through the list
----
-id: notice_date
-question: |
-  Date of Notice
+  Ask to enter your appeal late
 subquestion: |
-  Provide the date that you received the notice of assembly from the lower court.
-fields:
-  - "Date of notice": notice_date
-    datatype: date
+  Entering an appeal means registering it with the Appeals Court. In a civil
+  case, the usual deadline is **14 days after you receive the notice of assembly**.
+
+  This interview asks one Appeals Court judge, called a **single justice**,
+  to let you enter your appeal late. The judge decides whether to allow it.
+
+  This is different from:
+
+  * A **notice of appeal**, which you file in the trial court to start an appeal.
+  * A **Civil Docketing Statement**, which gives the Appeals Court details about
+    a case that has already been entered.
+
+  If you need a different motion, read the
+  [Appeals Court guide](https://www.mass.gov/info-details/guide-to-civil-and-criminal-panel-appeals)
+  or call the clerk at **617-725-8106**. Filing this motion does not stop other deadlines.
+continue button field: late_entry_intro
 ---
-id: excuse_description
+id: scope questions
 question: |
-  Describe the excusable neglect that resulted in having to file this motion to late docket the appeal. 
+  Is this the right motion for you?
+fields:
+  - Are you representing yourself in a civil case?: civil_self_represented
+    datatype: yesnoradio
+  - Have you already filed a notice of appeal in the trial court?: notice_filed
+    datatype: yesnoradio
+  - Have you received a notice of assembly of the record?: assembly_received
+    datatype: yesnoradio
+---
+event: wrong_motion
+id: wrong motion
+question: |
+  You may need a different step
 subquestion: |
-  In other words, describe the reasons why you did not enter your appeal on the Appeals Court docket within 14 days of your receipt of the notice of assembly of the record.
-fields: 
-  - Description: excuse_description
+  This interview is for people representing themselves in a **civil case**.
+  You must have filed a notice of appeal and received a notice of assembly.
+
+  Read the [Appeals Court guide](https://www.mass.gov/info-details/guide-to-civil-and-criminal-panel-appeals)
+  or call the Appeals Court clerk at **617-725-8106** to find the right procedure.
+  Act promptly. There may be a deadline.
+
+  ${ action_button_html(url_action("civil_self_represented"), label="Change my answers", color="info") }
+buttons:
+  - Exit: exit
+    url: https://www.mass.gov/info-details/guide-to-civil-and-criminal-panel-appeals
+---
+id: dismissal status
+question: |
+  Has the trial court dismissed your appeal?
+subquestion: |
+  Look for a court order dismissing the appeal. A request from the other side
+  to dismiss it is not itself a court order.
+fields:
+  - The trial court has dismissed my appeal: appeal_dismissed
+    datatype: yesnoradio
+  - Is a motion to dismiss your appeal waiting for a trial court decision?: dismissal_motion_pending
+    datatype: yesnoradio
+    show if:
+      variable: appeal_dismissed
+      is: False
+---
+event: dismissed_appeal
+id: dismissed appeal
+question: |
+  Get help with the dismissal order
+subquestion: |
+  This interview does not challenge an order that already dismissed your appeal.
+  A motion to enter an appeal late may not undo that order.
+
+  Call the Appeals Court clerk at **617-725-8106** and seek legal help promptly.
+  Ask what steps and deadlines apply to the dismissal order.
+
+  ${ action_button_html(url_action("appeal_dismissed"), label="Change my answer", color="info") }
+buttons:
+  - Exit: exit
+    url: https://www.mass.gov/info-details/guide-to-civil-and-criminal-panel-appeals
+---
+id: pending dismissal warning
+question: |
+  Check the pending motion to dismiss
+subquestion: |
+  A motion to dismiss is still before the trial court. A single justice
+  ordinarily will not decide a motion to enter the appeal late while that
+  motion is pending. Call the Appeals Court clerk at **617-725-8106** about
+  the order of steps. Meet any trial court deadline to respond.
+
+  You can keep preparing this motion. This interview does not prepare your
+  response to the motion to dismiss.
+continue button field: pending_dismissal_warning
+---
+id: contact information
+question: |
+  How can the court contact you?
+fields:
+  - Phone number: contact_phone
+    required: False
+  - Email address: contact_email
+    datatype: email
+    required: False
+---
+id: case caption
+question: |
+  What is the name of your case?
+subquestion: |
+  Copy the full case name from your trial court papers. Include all parties,
+  just as they appear there. For example: Taylor Green v. Morgan Rivera.
+fields:
+  - Case name: case_caption
     input type: area
 ---
-id: issue_description
+id: trial court details
 question: |
-  Issue Description
+  Which trial court handled your case?
+fields:
+  - Trial court name and location: trial_court_name
+    hint: For example, Suffolk Superior Court
+  - Trial court case number: trial_docket_number
+---
+id: appeals number available
+question: |
+  Has the Appeals Court given this matter a case number?
 subquestion: |
-  To obtain leave to late docket your appeal, in addition to excusable neglect, you must demonstrate that the appeal presents a meritorious issue on appeal--a legal question worthy of judicial investigation and discussion. Describe the meritorious issues that the appeal presents.
-fields: 
-  - Description: issue_description
+  This may be a single justice case number. Use the Appeals Court number only
+  if you have one. The trial court number is different.
+fields:
+  - no label: has_appeals_number
+    datatype: yesnoradio
+---
+id: appeals number
+question: |
+  What is the Appeals Court case number?
+fields:
+  - Appeals Court case number: appeals_docket_number
+---
+id: notice received
+question: |
+  When did you receive the notice of assembly?
+subquestion: |
+  Enter the day you received it, not the day printed on the notice.
+fields:
+  - Date received: notice_date
+    datatype: date
+    max: ${ today() }
+---
+id: reasons for delay
+question: |
+  Why did you miss the deadline?
+subquestion: |
+  Explain what kept you from entering your appeal on time. Include important
+  dates and what you did when you learned you missed the deadline.
+
+  The judge will decide whether your reasons amount to **excusable neglect**.
+  That means a reason the court accepts for missing the deadline. Missing the
+  deadline does not automatically mean you will get more time.
+fields:
+  - What happened?: excuse_description
     input type: area
 ---
-id: user_number
+id: issues on appeal
 question: |
-  Provide your current contact information.
-fields: 
-  - Phone Number: user_number
----
-id: user_date 
-question: |
-  Provide the date in which this form was completed. 
+  What errors do you want the Appeals Court to review?
 subquestion: |
-  Please indicate on which day you completed this form.
-fields: 
-  - Date of Completion: user_date 
-    datatype: date
+  Describe the trial court decision you want changed and the specific errors
+  you believe the court made. Explain why they matter to the result.
+
+  The judge must decide whether you have a **meritorious issue**: a real legal
+  question worth reviewing. You do not have to prove that you will win now.
+fields:
+  - Errors you want reviewed: issue_description
+    input type: area
 ---
-id: motion_delivery
+id: other side position
 question: |
-  Select the method of delivery that you have used or will use to provide the required copies of the motion, memorandum and supporting materials to the other party(s)'s attorney(s).
-subquestion: |
-  You are required to provide a copy of this motion on the other party(s)' attorney(s). If the other party(s) do not have an attorney, you are required to serve a copy on the self-represented party(s). You should not provide a copy of your affidavit of indigency, if any, to anyone except the Appeals Court. 
-fields: 
-  - Delivery Method: motion_delivery
-    input type: dropdown
+  Do you know the other side's position on this motion?
+fields:
+  - no label: opposition_status
     choices:
-      - E-file and Serve (efilema.com)
-      - E-mail
-      - Mail
-      - Hand Delivery
+      - All other parties agree: All other parties assent to this motion.
+      - No other party opposes it: No other party opposes this motion.
+      - At least one party plans to oppose it: At least one party plans to oppose this motion.
+      - I do not know: I do not know the other parties' positions on this motion.
 ---
-id: attorney[0]
+id: service recipients
 question: |
-  List the name and address or email address of each attorney or self-represented party that you have served or will serve with copies of your motion, memorandum and supporting materials.
+  Who needs a copy of your papers?
 subquestion: |
-  If you are serving more than one attorney or party, you may list more than one in the space provided.
-fields: 
-  - Attorney Name: attorney[0]
-  - Attorney Address: attorney[0].address
+  List **each other party's lawyer**. If a party has no lawyer, list that party.
+  Include each person's name, mailing address, and email address if you know it.
+  You can list more than one person below.
+
+  Do not send an affidavit of indigency or other private fee-waiver papers
+  to the other parties.
+fields:
+  - Names and addresses: service_recipients
+    input type: area
 ---
-id: service_date
+id: service completed
 question: |
-  Service Date
+  Have you already sent copies to everyone listed?
 subquestion: |
-  Select the date on which you have made or will make service.
+  If you have not sent them yet, your certificate will have blank spaces for
+  the service date and method. Fill them in and sign the certificate
+  **after** you send the copies. Do not certify a planned delivery as completed.
 fields:
-  - "Date of Service": service_date
-    datatype: date
----
-id: Motion to Dismiss
-question: |
-  Have you been served a **Motion to Dismiss** by the other party? 
-fields:
-  - no label: motion_to_dismiss
-    datatype: yesnomaybe
----
-id: Knows Docket Number
-question: |
-  Do you have your **Appeals Court** docket number?
-fields: 
-  - no label: knows_docket_number
+  - no label: service_done
     datatype: yesnoradio
 ---
-id: User Date
+id: service details
 question: |
-  What is the date you signed?
+  Tell us about the copies you sent
+subquestion: |
+  For email or electronic service, use a method allowed by the court's rules.
+  Ordinary email generally requires the recipient's consent.
+  If you used different methods or dates, describe each recipient separately.
 fields:
-  - Date: user_date
+  - Last date copies were sent: service_date
     datatype: date
+    max: ${ today() }
+  - Dates and delivery methods for each recipient: service_method
+    input type: area
+    hint: For example, first-class mail to both recipients on the date above.
 ---
-id: document appendix
+id: supporting documents choice
 question: |
-  Upload any relevant documents in support of your request for relief, including any necessary affidavits.
+  Do you want to attach supporting documents?
+subquestion: |
+  You can attach your notice of assembly and documents that support your
+  explanation. Include only papers needed for this request. Keep fee-waiver
+  papers separate because they contain private financial information.
 fields:
-  - Do you have any documents that you would like to attach to your Motion?: has_document
+  - no label: has_documents
     datatype: yesnoradio
-  - Tap "browse" and choose all of the documents you want to upload at once. You can edit or add additional documents on the next screen.: doc_uploads
+---
+id: supporting documents upload
+question: |
+  Upload your supporting documents
+subquestion: |
+  Choose all the files you want to attach. Check the preview to make sure they
+  are readable and in the right order.
+fields:
+  - Supporting documents: supporting_documents
     datatype: files
-    show if: has_document
-    maximum image size: 1024
-    image upload type: jpeg    
     accept: |
-      "image/*, image/png,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,.pdf"
-#validation code: |
-  #if has_document and sum(doc_upload.size_in_bytes() for doc_upload in doc_uploads) > (15 * 1024 * 1024):
-    #validation_error("Upload a file smaller than 15 MB.")
+      "application/pdf,image/*"
 ---
-code: | 
-  exhibits_attachment[i] = doc_uploads
----
-table: doc_uploads.table
-rows: doc_uploads
-allow reordering: True
-columns:
-  - File name: showifdef(row_item.attr_name('filename'))
-  # - Size: row_item.size_in_bytes() / 1024 / 1024
-  - Thumbnail: row_item.show(width="100px")  
-delete buttons: True
----
-id: review documents
+id: filing information
 question: |
-  Review your documents.
+  What you will do with your papers
 subquestion: |
-  Look at the documents below. If you want to change the order, use the arrows
-  to move an exhibit up or down in the list. Click "delete" or "add another"
-  to change which documents you send to the court.
-  
-  ${ doc_uploads.table }
-  
-  ${ doc_uploads.add_action() }
-continue button field: review_doc_upload
+  This interview does **not** file your motion. You will need to:
+
+  1. Review and sign the motion and affidavit. The affidavit is your statement
+     of facts signed under the penalties of perjury.
+  2. Send copies to the other parties or their lawyers. Then complete and sign
+     the certificate of service.
+  3. File with the **Appeals Court single justice** and send a courtesy copy
+     to the trial court. Call **617-725-8106** about filing methods if needed.
+  4. Pay the **$315 civil filing fee**, or submit a motion to waive the fee
+     with an affidavit of indigency. Additional fees may apply when you enter
+     the appeal after permission is granted.
+
+  Need a fee waiver? Use the separate
+  [Affidavit of Indigency interview](https://apps.suffolklitlab.org/start/indigency/).
+  You also need to ask the Appeals Court to waive its entry fee. This interview
+  does not make that separate motion. Keep financial papers out of the copies
+  you send to the other side.
+
+  Check the [court's current instructions](https://www.mass.gov/info-details/single-justice-practice)
+  before filing. A judge must grant your request before you can rely on it.
+continue button field: filing_information
 ---
-id: preview late_docketing_statement
+id: preview late docketing motion
 question: |
-  Preview your form before you sign it
+  Review your motion and affidavit
 subquestion: |
-  Here is a preview of the form you will sign on the next page.   
-  
-  ${ al_court_bundle.as_pdf(key='preview') }
-  
-  ${ al_user_bundle.as_pdf(key='preview') }
+  ${ al_court_bundle.as_pdf(key="final") }
 
-  Click the image to open it in a new tab. Click the "Make changes" button
-  to edit your answers.
+  Check the case details, your reasons, and your service information.
+  Your documents have blank signature lines for you to sign after printing.
 
-  ${ action_button_html(url_action('review_late_docketing_statement'), label='Make changes', color='info') }
-  
-  Remember to come back to this window to continue and sign your form.
-continue button field: late_docketing_statement_preview_question    
+  ${ action_button_html(url_action("review_late_docketing_statement"), label="Make changes", color="info") }
+continue button field: late_docketing_statement_preview
 ---
-code: |
-  signature_fields = []
----
-id: late docketing statement review screen
 event: review_late_docketing_statement
+id: review late docketing answers
 question: |
   Review your answers
 review:
+  - Edit: users[0].name.first
+    button: |
+      **Your name:** ${ users[0] }
+  - Edit: users[0].address.address
+    button: |
+      **Your address:** ${ users[0].address.on_one_line() }
+  - Edit: contact_phone
+    button: |
+      **Contact:** ${ contact_phone }; ${ contact_email }
+  - Edit: case_caption
+    button: |
+      **Case name:** ${ case_caption }
+  - Edit: trial_court_name
+    button: |
+      **Trial court:** ${ trial_court_name }; ${ trial_docket_number }
+  - Edit: has_appeals_number
+    button: |
+      **Appeals Court number:** ${ appeals_docket_number if has_appeals_number else "Not assigned" }
   - Edit: notice_date
     button: |
-      **Date of notice**:
-      ${ notice_date }
-  - Edit: users[0].signature
-    button: |
-      **E signature**:
-      ${ users[0].signature }
-  - Edit: defendants
-    button: |
-      **Defendants**:
-      ${ defendants }
+      **Notice received:** ${ notice_date }
   - Edit: excuse_description
     button: |
-      **Excuse description**:
-      ${ excuse_description }
-  - Edit: motion_delivery
-    button: |
-      **Motion delivery**:
-      ${ motion_delivery }
-  - Edit: doc_uploads
-    button: |
-      **Doc upload**:
-      ${ doc_uploads }
+      **Why you missed the deadline:** ${ excuse_description }
   - Edit: issue_description
     button: |
-      **Issue description**:
-      ${ issue_description }
-  - Edit: appeals_docket_number
+      **Errors to review:** ${ issue_description }
+  - Edit: opposition_status
     button: |
-      **Appeals docket number**:
-      ${ appeals_docket_number }
+      **Other parties' position:** ${ opposition_status }
+  - Edit: appeal_dismissed
+    button: |
+      **Pending motion to dismiss:** ${ word(yesno(dismissal_motion_pending)) }
+  - Edit: service_recipients
+    button: |
+      **People receiving copies:** ${ service_recipients }
+  - Edit: service_done
+    button: |
+      **Copies already sent:** ${ word(yesno(service_done)) }
   - Edit: service_date
+    show if: service_done
     button: |
-      **Date of service**:
-      ${ service_date }
-  - Edit: plaintiff[0]
+      **Service:** ${ service_date }; ${ service_method }
+  - Edit: has_documents
     button: |
-      **Plaintiff[0]**:
-      ${ plaintiff[0] }
-  - Edit: trial_court
+      **Supporting documents:** ${ word(yesno(has_documents)) }
+  - Edit: supporting_documents
+    show if: has_documents
     button: |
-      **Trial Court**:
-      ${ trial_court }
-  - Edit: attorney[0]
-    button: |
-      **Attorney info**:
-      ${ attorney[0] }
-  - Edit: other_parties.revisit
-    button: |
-      **other_parties**
-
-      % for item in other_parties:
-        * ${ item }
-      % endfor
-  - Edit: docket_number
-    button: |
-      **docket_number**:
-      ${ docket_number }
+      **Files:** ${ supporting_documents }
 ---
-continue button field: other_parties.revisit
-id: "edit other parties"
-question: |
-  Edit other_parties
-subquestion: |
-  ${ other_parties.table }
-
-  ${ other_parties.add_action() }
----
-table: other_parties.table
-rows: other_parties
-columns:
-  - name: |
-      row_item.name.full() if defined("row_item.name.first") else ""
-edit:
-  - name.first
-confirm: True
-
----
-id: download late_docketing_statement
 event: late_docketing_statement_download
+id: download late docketing motion
 question: |
-  Your form is ready to download.
+  Your motion is ready to download
 subquestion: |
-  Thank you ${users}. Your form is ready to download and deliver.
-  
-  View, download and send your form below. Click the "Make changes" button to fix any mistakes.
+  **You have not filed anything yet.** Print and sign your papers. Follow the
+  instructions included with your download. Keep a copy of everything.
 
-  ${ action_button_html(url_action('review_late_docketing_statement'), label='Make changes', color='info') }
-  
-  
   ${ al_user_bundle.download_list_html() }
-  
 
-  ${ al_user_bundle.send_button_html(show_editable_checkbox=True) }
-
+  ${ action_button_html(url_action("review_late_docketing_statement"), label="Make changes", color="info") }
 progress: 100
 ---
 objects:
-  - Post_interview_instructions: ALDocument.using(title="Instructions", filename="late_docketing_statement_next_steps.docx", enabled=True, has_addendum=False)
-  - late_docketing_statement_attachment: ALDocument.using(title="Late docketing statement", filename="late_docketing_statement.docx", enabled=True, has_addendum=False)
-  - Post_interview_instructions: ALDocument.using(title="Instructions", filename="late_docketing_statement_next_steps.docx", enabled=True, has_addendum=False)
-  - late_docketing_statement_attachment: ALDocument.using(title="Late docketing statement", filename="late_docketing_statement.docx", enabled=True, has_addendum=False)
-  - macourts: MACourtList.using(courts=['housing_courts','bmc','district_courts','superior_courts','land_court', 'juvenile_courts', 'probate_and_family_courts','appeals_court'])  # this is for lookups
-  - exhibits_attachment: ALDocument.using(title='Exhibits', filename='doc_uploads', has_addendum=False)
----
-objects:
-  - al_user_bundle: ALDocumentBundle.using(elements=[Post_interview_instructions,late_docketing_statement_attachment, exhibits_attachment, affidavitofindigency_attachment], filename="late_docketing_statement_package.pdf", title="All forms to download for your records")
-  - al_court_bundle: ALDocumentBundle.using(elements=[late_docketing_statement_attachment, exhibits_attachment, affidavitofindigency_attachment], filename="late_docketing_statement_package.pdf", title="All forms to download for your records")
+  - late_docketing_statement_attachment: ALDocument.using(title="Motion, affidavit, and certificate of service", filename="late_appeal_motion", enabled=True, has_addendum=False)
+  - next_steps: ALDocument.using(title="Filing instructions", filename="late_appeal_instructions", enabled=True, has_addendum=False)
+  - exhibits_attachment: ALDocument.using(title="Supporting documents", filename="supporting_documents", has_addendum=False)
+  - al_user_bundle: ALDocumentBundle.using(elements=[next_steps, late_docketing_statement_attachment, exhibits_attachment], filename="late_appeal_package", title="Your motion and instructions", enabled=True)
+  - al_court_bundle: ALDocumentBundle.using(elements=[late_docketing_statement_attachment, exhibits_attachment], filename="late_appeal_court_documents", title="Motion and supporting documents", enabled=True)
 ---
 code: |
-  affidavitofindigency_attachment.enabled = not knows_docket_number and (ask_if_qualifies_for_fee_waiver and is_indigent)
----
-id: "getting the court to pay your fees"
-question: |
-  Getting the court to pay your fees
-subquestion: |
-  It costs about $165 to file a late docketing statement. But you may qualify
-  for a fee waiver. If you do, you will need to tell the court about your income.
-  
-  Do you want to find out?  
-field: ask_if_qualifies_for_fee_waiver
-buttons:  
-  - Find out if I qualify: True
-  - Skip: False
+  exhibits_attachment.enabled = has_documents
 ---
 code: |
-  fees['Costs of an expert witness'].waive = False
-  fees['Filing fee'].waive = True
-  fees['Filing fee'].amount = 165
-  #case_name = "In the matter of " + users[0].name.full()
-  docket_numbers[0] = ''
-  set_indigency_defaults = True
----
-objects:
-  - doc_uploads: DAFileList.using(auto_gather=False, gathered=True)
----
-code: |
-  if has_document: 
-    exhibits_attachment.enabled = True
-  else:
-    exhibits_attachment.enabled = False
+  exhibits_attachment[i] = pdf_concatenate(supporting_documents)
 ---
 attachments:
-  - name: Post interview instructions
-    filename: Post-interview-instructions     
-    variable name: Post_interview_instructions[i]        
-    docx template file: late_docketing_statement_next_steps.docx
-  - name: late docketing statement attachment
-    filename: late_docketing_statement     
-    variable name: late_docketing_statement_attachment[i]        
+  - name: Motion, affidavit, and certificate of service
+    filename: late_appeal_motion
+    variable name: late_docketing_statement_attachment[i]
     docx template file: late_docketing_statement.docx
-  - name: Post interview instructions
-    filename: Post-interview-instructions     
-    variable name: Post_interview_instructions[i]        
+    skip undefined: False
+  - name: Filing instructions
+    filename: late_appeal_instructions
+    variable name: next_steps[i]
     docx template file: late_docketing_statement_next_steps.docx
-  - name: late docketing statement attachment
-    filename: late_docketing_statement     
-    variable name: late_docketing_statement_attachment[i]        
-    docx template file: late_docketing_statement.docx
+    skip undefined: False
