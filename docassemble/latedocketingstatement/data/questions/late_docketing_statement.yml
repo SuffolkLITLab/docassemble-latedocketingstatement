@@ -480,7 +480,7 @@ subquestion: |
   **You have not filed anything yet.** Print and sign your papers. Follow the
   instructions included with your download. Keep a copy of everything.
 
-  ${ al_user_bundle.download_list_html(include_full_pdf=True) }
+  ${ al_user_bundle.download_list_html() }
 
   ${ action_button_html(url_action("review_late_docketing_statement"), label="Make changes", color="info") }
 progress: 100
