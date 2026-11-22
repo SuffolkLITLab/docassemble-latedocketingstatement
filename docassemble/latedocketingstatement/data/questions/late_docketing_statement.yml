@@ -36,8 +36,8 @@ metadata:
   integrated_efiling: False
   integrated_email_filing: False
   update_notes: |
-    Revised scope, motion and affidavit, service certificate, and filing guidance.
-    Source and runtime checks completed; attorney and maintainer approval pending.
+    Adds a supporting affidavit, a service certificate, and filing steps
+    for a late civil appeal-entry motion.
   review_date: 2026-11-22
   estimated_completion_minutes: 20
   estimated_completion_delta: 10

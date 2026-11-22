@@ -1,4 +1,4 @@
-"""Output checks: run with uv run --with docxtpl --with pytest pytest tests."""
+"""Check motion, affidavit and service output across filing situations."""
 from pathlib import Path
 from types import SimpleNamespace
 from docxtpl import DocxTemplate
