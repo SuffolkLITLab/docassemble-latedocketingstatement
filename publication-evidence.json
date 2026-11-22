@@ -1,5 +1,5 @@
 {
-  "source_sha256": "20077065a1ec59ca5f1edc8d131437c758d29600e6218bbe70dbea3112ec635b",
+  "source_sha256": "54308f97dbda65ea340d2fcc52dc3280bc3490db729ec66aaa63dfe34a7cc269",
   "plain_language_review": {
     "passed": false,
     "reviewer": "Codex AI review, not human usability testing",
@@ -71,7 +71,7 @@
   "tests": {
     "output_regressions": "3 passed after final template changes; rendered sample PDF visually reviewed (3 pages, no blank pages, no clipped text).",
     "alkiln": {
-      "result": "All three scenarios have passed locally; final full run has a documented browser-harness navigation failure on the basic path, while final extended exhibit-removal and wrong-motion scenarios pass.",
+      "result": "All three final interview paths passed across final targeted/full runs. Extended exhibit removal and wrong-motion passed in 105000; basic PDF download passed in 105435. Full-suite browser flake remains recorded.",
       "runs": [
         {
           "id": "20261122-102645",
@@ -100,10 +100,14 @@
         {
           "id": "20261122-105000",
           "result": "Final full suite: 2 passed, 1 failed (Puppeteer Execution context was destroyed on basic path), 24 steps passed; extended exhibit-removal and wrong-motion scenarios passed. Earlier basic output download and full three-path suite passed."
+        },
+        {
+          "id": "20261122-105435",
+          "result": "Final basic path: 1 scenario/5 steps passed with actual PDF download after test-only POST navigation stabilization; read-only context probes retried, no mutation retries."
         }
       ],
       "output_checks": "Live unserved motion: 3 pages, blank service dates/methods, no missing variables. Live served motion: correct court number, two recipients, pending-dismissal statement, date and method. Uploaded image becomes a one-page PDF. Final edit/removal test confirms supporting-document link disappears and regenerated combined packet has exactly one fewer page; no stale exhibit survives.",
-      "limitations": "No human usability test. Dismissed-appeal exit reviewed statically. Earlier review-navigation attempts encountered ALKiln/Puppeteer timing failures; final explicit resume step passed."
+      "limitations": "No human usability test. Dismissed-appeal exit reviewed statically. Earlier full run had a browser navigation-context race; local helper now awaits POST navigation and retries read-only probes. Final basic rerun passed."
     }
   },
   "external_review": {

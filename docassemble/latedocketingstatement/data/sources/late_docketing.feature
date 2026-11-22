@@ -1,6 +1,7 @@
 @story_table
 Feature: Choose the correct motion and prepare a truthful late-entry packet
 
+@basic
 Scenario: Civil appellant has not served copies and has no Appeals Court number
   Given I start the interview at "late_docketing_statement.yml"
   And I wait 1 second
