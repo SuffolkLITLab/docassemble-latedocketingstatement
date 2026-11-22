@@ -8,7 +8,7 @@ metadata:
   description: |
     Missed the deadline to enter your civil appeal? Ask the Appeals Court for more
     time. Make a motion and an affidavit. A motion is a written court request.
-    An affidavit is your signed statement of facts. This is for Massachusetts.
+    An affidavit is a statement of facts you sign as true. This is for Massachusetts.
   authors:
     - Suffolk LIT Lab
   jurisdiction: NAM-US-US+MA
@@ -48,7 +48,7 @@ metadata:
     You must have filed a notice of appeal. You must also have a notice of assembly.
     A notice of appeal tells the trial court you want a higher court to review
     its decision. A notice of assembly says your court record is ready.
-    It asks to add your appeal to the Appeals Court case list after the deadline.
+    This form asks to add your appeal to the Appeals Court case list after the deadline.
     It does not ask to file a late notice of appeal or a late Civil Docketing Statement.
     It does not handle criminal appeals or an appeal that the trial court has dismissed.
   before_you_start: |
